@@ -1,7 +1,6 @@
 from django.contrib import admin
-from webapp.models import Movie
-from webapp.models import Category
-from webapp.models import Hall
+from webapp.models import Movie, Category, Hall, Seat
+
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ['pk', 'name', 'release_date']
@@ -12,3 +11,4 @@ class MovieAdmin(admin.ModelAdmin):
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Category)
 admin.site.register(Hall)
+admin.site.register(Seat)
