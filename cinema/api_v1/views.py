@@ -1,6 +1,6 @@
 from webapp.models import Movie, Category, Hall, Seat
 from rest_framework import viewsets
-from api_v1.serializers import MovieSerializer, CategorySerializer, HallSerializer, SeatSrializer
+from api_v1.serializers import MovieSerializer, CategorySerializer, HallSerializer, SeatSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -19,4 +19,4 @@ class HallViewSet(viewsets.ModelViewSet):
 
 class SeatViewSet(viewsets.ModelViewSet):
     queryset = Seat.objects.all()
-    serializer_class = SeatSrializer
+    serializer_class = SeatSerializer

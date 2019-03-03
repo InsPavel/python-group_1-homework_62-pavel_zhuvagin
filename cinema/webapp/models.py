@@ -32,3 +32,5 @@ class Seat(models.Model):
     hall = models.ManyToManyField(Hall, related_name='halls', verbose_name='Зал')
     row = models.CharField(max_length=200)
     place = models.CharField(max_length=200)
+
+

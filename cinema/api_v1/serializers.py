@@ -20,7 +20,7 @@ class HallSerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 
-class SeatSrializer(serializers.ModelSerializer):
+class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seat
         fields = ('hall', 'row', 'place')
