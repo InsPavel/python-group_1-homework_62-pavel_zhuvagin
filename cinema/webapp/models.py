@@ -34,3 +34,12 @@ class Seat(models.Model):
     place = models.CharField(max_length=200)
 
 
+class Show(models.Model):
+    movie = models.ManyToManyField(Movie, related_name='movies', verbose_name='Фильм')
+    hall = models.ManyToManyField(Hall, related_name='show_halls', verbose_name='Зал')
+    start_of_show = models.DateTimeField()
+    finish_of_show = models.DateTimeField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return '%s' % self.start_of_show
