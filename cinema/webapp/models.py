@@ -9,9 +9,13 @@ class SoftDeleteManager(models.Manager):
         return self.filter(is_deleted=True)
 
 
-class Category(models.Model):
+class Movie(models.Model):
     name = models.CharField(max_length=255)
+    categories = models.ManyToManyField('Category', related_name='categories', verbose_name='Категория')
     description = models.TextField(max_length=2000, null=True, blank=True)
+    poster = models.ImageField(upload_to='posters', null=True, blank=True)
+    release_date = models.DateField()
+    finish_date = models.DateField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
 
     objects = SoftDeleteManager()
@@ -20,13 +24,9 @@ class Category(models.Model):
         return self.name
 
 
-class Movie(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=255)
-    categories = models.ManyToManyField(Category, related_name='categories', verbose_name='Категория')
     description = models.TextField(max_length=2000, null=True, blank=True)
-    poster = models.ImageField(upload_to='posters', null=True, blank=True)
-    release_date = models.DateField()
-    finish_date = models.DateField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
 
     objects = SoftDeleteManager()
@@ -46,7 +46,7 @@ class Hall(models.Model):
 
 
 class Seat(models.Model):
-    hall = models.ManyToManyField(Hall, related_name='halls', verbose_name='Зал')
+    hall = models.ForeignKey(Hall, on_delete=models.PROTECT, related_name='halls')
     row = models.CharField(max_length=200)
     place = models.CharField(max_length=200)
     is_deleted = models.BooleanField(default=False)
@@ -55,8 +55,8 @@ class Seat(models.Model):
 
 
 class Show(models.Model):
-    movie = models.ManyToManyField(Movie, related_name='movies', verbose_name='Фильм')
-    hall = models.ManyToManyField(Hall, related_name='show_halls', verbose_name='Зал')
+    movie = models.ForeignKey(Movie, on_delete=models.PROTECT, related_name='movies')
+    hall = models.ForeignKey(Hall, on_delete=models.PROTECT, related_name='show_halls')
     start_of_show = models.DateTimeField()
     finish_of_show = models.DateTimeField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -65,4 +65,6 @@ class Show(models.Model):
     objects = SoftDeleteManager()
 
     def __str__(self):
-        return '%s' % self.start_of_show
+        return "%s, %s (%s - %s)" % (self.movie, self.hall,
+                                     self.start_of_show.strftime('%d.%m.%Y %H:%M'),
+                                     self.finish_of_show.strftime('%d.%m.%Y %H:%M'))
