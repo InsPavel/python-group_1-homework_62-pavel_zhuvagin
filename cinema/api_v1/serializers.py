@@ -2,12 +2,11 @@ from webapp.models import Movie, Category, Hall, Seat, Show
 from rest_framework import serializers
 
 
-class MovieSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='api_v1:movie-detail')
+class InlineCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Movie
-        fields = ('url', 'id', 'name', 'categories', 'description', 'poster', 'release_date', 'finish_date', 'is_deleted')
+        model = Category
+        fields = ('id', 'name')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -16,6 +15,15 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('url', 'id', 'name', 'description', 'is_deleted')
+
+
+class MovieSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api_v1:movie-detail')
+    categories = InlineCategorySerializer(many=True)
+
+    class Meta:
+        model = Movie
+        fields = ('url', 'id', 'name', 'description', 'poster', 'release_date', 'finish_date', 'categories', 'is_deleted')
 
 
 class HallSerializer(serializers.ModelSerializer):
@@ -36,7 +44,9 @@ class SeatSerializer(serializers.ModelSerializer):
 
 class ShowSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api_v1:show-detail')
+    movie_url = serializers.HyperlinkedRelatedField(view_name='api_v1:movie-detail',  read_only=True, source='movie')
+    hall_url = serializers.HyperlinkedRelatedField(view_name='api_v1:hall-detail', source='hall', read_only=True)
 
     class Meta:
         model = Show
-        fields = ('url', 'id', 'movie', 'hall', 'start_of_show', 'finish_of_show', 'price', 'is_deleted')
+        fields = ('url', 'id', 'movie', 'movie_url', 'hall', 'hall_url', 'start_of_show', 'finish_of_show', 'price', 'is_deleted')
