@@ -48,10 +48,13 @@ class Hall(models.Model):
 class Seat(models.Model):
     hall = models.ForeignKey(Hall, on_delete=models.PROTECT, related_name='halls')
     row = models.CharField(max_length=200)
-    place = models.CharField(max_length=200)
+    seat = models.CharField(max_length=200)
     is_deleted = models.BooleanField(default=False)
 
     objects = SoftDeleteManager()
+
+    def __str__(self):
+        return "Row %s Seat %s" % (self.row, self.seat)
 
 
 class Show(models.Model):
@@ -68,3 +71,17 @@ class Show(models.Model):
         return "%s, %s (%s - %s)" % (self.movie, self.hall,
                                      self.start_of_show.strftime('%d.%m.%Y %H:%M'),
                                      self.finish_of_show.strftime('%d.%m.%Y %H:%M'))
+
+
+class Ticket(models.Model):
+    show = models.ForeignKey(Show, on_delete=models.PROTECT, related_name='shows')
+    seat = models.ForeignKey(Seat, on_delete=models.PROTECT, related_name='seats')
+    # discount = models.ForeignKey('Discount', on_delete=models.PROTECT, related_name='discounts')
+    return_ticket = models.BooleanField(default=False)
+
+    objects = SoftDeleteManager()
+
+    def __str__(self):
+        return 'Show: %s. Seat: %s' % (self.show, self.seat)
+
+
