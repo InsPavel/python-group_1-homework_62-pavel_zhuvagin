@@ -52,6 +52,14 @@ class ShowSerializer(serializers.ModelSerializer):
         fields = ('url', 'id', 'movie', 'movie_url', 'hall', 'hall_url', 'start_of_show', 'finish_of_show', 'price', 'is_deleted')
 
 
+class DiscountSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api_v1:discount-detail')
+
+    class Meta:
+        model = Discount
+        fields = ('url', 'id', 'name', 'discount', 'start_date', 'finish_date')
+
+
 class TicketSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api_v1:show-detail')
     show_url = serializers.HyperlinkedRelatedField(view_name='api_v1:show-detail', read_only=True, source='show')
@@ -60,12 +68,6 @@ class TicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ('url', 'show', 'show_url', 'discount', 'discount_url', 'seat', 'seat_url', 'return_ticket')
+        fields = ('url', 'id', 'show', 'show_url', 'discount', 'discount_url', 'seat', 'seat_url', 'return_ticket', 'is_deleted')
 
 
-class DiscountSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='api_v1:discount-detail')
-
-    class Meta:
-        model = Discount
-        fields = ('url', 'discount', 'start_date', 'finish_date')

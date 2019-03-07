@@ -73,27 +73,29 @@ class Show(models.Model):
                                      self.finish_of_show.strftime('%d.%m.%Y %H:%M'))
 
 
-class Ticket(models.Model):
-    show = models.ForeignKey(Show, on_delete=models.PROTECT, related_name='shows')
-    seat = models.ForeignKey(Seat, on_delete=models.PROTECT, related_name='seats')
-    discount = models.ForeignKey('Discount', on_delete=models.PROTECT, related_name='discounts')
-    return_ticket = models.BooleanField(default=False)
-
-    objects = SoftDeleteManager()
-
-    def __str__(self):
-        return 'Show: %s. Seat: %s' % (self.show, self.seat)
-
-
 class Discount(models.Model):
     name = models.CharField(max_length=255)
     discount = models.DecimalField(max_digits=6, decimal_places=2)
     start_date = models.DateField(null=True, blank=True)
     finish_date = models.DateField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
 
     objects = SoftDeleteManager()
 
     def __str__(self):
         return '%s. Discount: %s. (%s - %s)' % (self.name, self.discount, self.start_date, self.finish_date)
+
+
+class Ticket(models.Model):
+    show = models.ForeignKey(Show, on_delete=models.PROTECT, related_name='shows')
+    seat = models.ForeignKey(Seat, on_delete=models.PROTECT, related_name='seats')
+    discount = models.ForeignKey(Discount, on_delete=models.PROTECT, related_name='discounts', null=True, blank=True)
+    return_ticket = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
+
+    objects = SoftDeleteManager()
+
+    def __str__(self):
+        return 'Show: %s. Seat: %s' % (self.show, self.seat)
 
 
