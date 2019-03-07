@@ -1,4 +1,4 @@
-from webapp.models import Movie, Category, Hall, Seat, Show, Ticket
+from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount
 from rest_framework import serializers
 
 
@@ -56,7 +56,16 @@ class TicketSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api_v1:show-detail')
     show_url = serializers.HyperlinkedRelatedField(view_name='api_v1:show-detail', read_only=True, source='show')
     seat_url = serializers.HyperlinkedRelatedField(view_name='api_v1:seat-detail', read_only=True, source='seat')
+    discount_url = serializers.HyperlinkedRelatedField(view_name='api_v1:discount-detail', read_only=True, source='discount')
 
     class Meta:
         model = Ticket
-        fields = ('url', 'show', 'show_url', 'seat', 'seat_url', 'return_ticket')
+        fields = ('url', 'show', 'show_url', 'discount', 'discount_url', 'seat', 'seat_url', 'return_ticket')
+
+
+class DiscountSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api_v1:discount-detail')
+
+    class Meta:
+        model = Discount
+        fields = ('url', 'discount', 'start_date', 'finish_date')

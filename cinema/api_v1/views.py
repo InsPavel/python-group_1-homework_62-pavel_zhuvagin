@@ -1,6 +1,6 @@
-from webapp.models import Movie, Category, Hall, Seat, Show, Ticket
+from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount
 from rest_framework import viewsets
-from api_v1.serializers import MovieSerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer
+from api_v1.serializers import MovieSerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -51,6 +51,15 @@ class ShowViewSet(viewsets.ModelViewSet):
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save()
+
+
+class DiscountViewSet(viewsets.ModelViewSet):
+    queryset = Discount.objects.all()
+    serializer_class = DiscountSerializer
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
