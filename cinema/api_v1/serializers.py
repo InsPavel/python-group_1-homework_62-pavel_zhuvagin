@@ -17,13 +17,16 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('url', 'id', 'name', 'description', 'is_deleted')
 
 
-class MovieSerializer(serializers.ModelSerializer):
+class MovieCreateSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api_v1:movie-detail')
-    categories = InlineCategorySerializer(many=True)
 
     class Meta:
         model = Movie
-        fields = ('url', 'id', 'name', 'description', 'poster', 'release_date', 'finish_date', 'categories', 'is_deleted')
+        fields = ('url', 'id', 'name', 'description', 'poster', 'release_date', 'finish_date', 'categories')
+
+
+class MovieDisplaySerializer(MovieCreateSerializer):
+    categories = InlineCategorySerializer(many=True, read_only=True)
 
 
 class HallSerializer(serializers.ModelSerializer):
