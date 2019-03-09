@@ -1,5 +1,6 @@
 import React, {Fragment, Component} from 'react'
 import {MOVIES_URL} from "../../api-urls";
+import { NavLink } from 'react-router-dom';
 import MovieCard from "../../componenets/MovieCard/MovieCard";
 
 
@@ -18,6 +19,7 @@ class MovieList extends  Component {
 
     render() {
         return <Fragment>
+            <p><NavLink to={'/movies/add'}>Добавить фильм</NavLink></p>
             {this.state.movies.map(movie => {
                 return <MovieCard movie={movie} key={movie.id}/>
             })}
