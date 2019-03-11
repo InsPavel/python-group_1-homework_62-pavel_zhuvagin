@@ -7,7 +7,7 @@ class NoAuthModelViewSet(viewsets.ModelViewSet):
     authentication_classes = []
 
 
-class MovieViewSet(viewsets.ModelViewSet):
+class MovieViewSet(NoAuthModelViewSet):
     queryset = Movie.objects.all().order_by('-release_date')
 
     def get_serializer_class(self):
@@ -21,7 +21,7 @@ class MovieViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(NoAuthModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -30,7 +30,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class HallViewSet(viewsets.ModelViewSet):
+class HallViewSet(NoAuthModelViewSet):
     queryset = Hall.objects.all()
     serializer_class = HallSerializer
 
@@ -39,7 +39,7 @@ class HallViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class SeatViewSet(viewsets.ModelViewSet):
+class SeatViewSet(NoAuthModelViewSet):
     queryset = Seat.objects.all()
     serializer_class = SeatSerializer
 
@@ -48,7 +48,7 @@ class SeatViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class ShowViewSet(viewsets.ModelViewSet):
+class ShowViewSet(NoAuthModelViewSet):
     queryset = Show.objects.all()
     serializer_class = ShowSerializer
 
@@ -57,7 +57,7 @@ class ShowViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class TicketViewSet(viewsets.ModelViewSet):
+class TicketViewSet(NoAuthModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
@@ -66,7 +66,7 @@ class TicketViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class DiscountViewSet(viewsets.ModelViewSet):
+class DiscountViewSet(NoAuthModelViewSet):
     queryset = Discount.objects.all()
     serializer_class = DiscountSerializer
 
@@ -75,6 +75,6 @@ class DiscountViewSet(viewsets.ModelViewSet):
         instance.save()
 
 
-class BookViewSet(viewsets.ModelViewSet):
+class BookViewSet(NoAuthModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
