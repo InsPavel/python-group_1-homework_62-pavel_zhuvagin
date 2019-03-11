@@ -20,9 +20,13 @@ class MovieList extends  Component {
     render() {
         return <Fragment>
             <p><NavLink to={'/movies/add'}>Добавить фильм</NavLink></p>
+            <div className='row'>
             {this.state.movies.map(movie => {
-                return <MovieCard movie={movie} key={movie.id}/>
+                return <div className='col col-3'>
+                        <MovieCard movie={movie} key={movie.id}/>
+                    </div>
             })}
+            </div>
         </Fragment>
     }
 }

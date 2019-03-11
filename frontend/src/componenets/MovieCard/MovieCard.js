@@ -5,7 +5,7 @@ const MovieCard = props => {
     const {name, poster, id} = props.movie;
     const link = {
         text: 'Read more...',
-        url: '/movies/' + id
+        url: '/movies/' + id,
     };
     return <Card header={name} image={poster} link={link}/>;
 };
