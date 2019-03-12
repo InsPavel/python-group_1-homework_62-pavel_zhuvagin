@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {CATEGORIES_URL, MOVIES_URL} from "../../api-urls";
+import DatePicker from "react-datepicker";
 
 class MovieAdd extends Component {
     state = {
@@ -7,8 +8,10 @@ class MovieAdd extends Component {
             name: '',
             description: '',
             release_date: '',
+            poster: null,
             categories: []
         },
+        fileName: '',
         categories: [],
         alert: null,
         submitDisabled: false
@@ -47,7 +50,9 @@ class MovieAdd extends Component {
         this.updateMovieState(fieldName, value)
     };
 
-
+    dateChanged = (field, date) => {
+        this.updateMovieState(field, date.toISOString().slice(0, 10));
+    };
 
     selectChanged = (event) => {
         const value =[];
@@ -93,11 +98,15 @@ class MovieAdd extends Component {
     };
 
     render() {
-        const {name, description, release_date, categories} = this.state.movie;
+        const {name, description, release_date, finish_date, categories} = this.state.movie;
         let alert = null;
         if(this.state.alert) {
             alert = <div className={'alert alert-' + this.state.alert.type}>{this.state.alert.message}</div>
         }
+
+        const release_date_selected = release_date ? new Date(release_date) : null;
+        const finish_date_selected = finish_date ? new Date(finish_date) : null;
+
         return <div>
             {alert}
             <form onSubmit={this.formSubmitted}>
@@ -111,7 +120,17 @@ class MovieAdd extends Component {
                 </div>
                 <div className="form-group">
                     <label className="font-weight-bold">Дата выхода</label>
-                    <input type="text" className="form-control" name="release_date" value={release_date} onChange={this.inputChanged}/>
+                    <div>
+                        <DatePicker dateFormat="yyyy-MM-dd" selected={release_date_selected} className="form-control"
+                                    name="release_date" onChange={(date) => this.dateChanged('release_date', date)}/>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label>Дата завершения проката</label>
+                    <div>
+                        <DatePicker dateFormat="yyyy-MM-dd" selected={finish_date_selected} className="form-control"
+                                    name="finish_date" onChange={(date) => this.dateChanged('finish_date', date)}/>
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>Категория</label>
