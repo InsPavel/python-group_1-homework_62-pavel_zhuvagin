@@ -5,6 +5,7 @@ import './App.css';
 import MovieList from "./containers/MovieList/MovieList";
 import MovieAdd from "./containers/MovieAdd/MovieAdd";
 import MovieDetail from "./containers/MovieDetail/MovieDetail";
+import MovieEdit from "./containers/MovieEdit/MovieEdit";
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
               <BrowserRouter>
                   <Switch>
                       <Route path='/movies/add' component={MovieAdd}/>
+                      <Route path='/movies/:id/edit' component={MovieEdit}/>
                       <Route path='/movies/:id' component={MovieDetail} />
                       <Route path='/' component={MovieList}/>
                   </Switch>
