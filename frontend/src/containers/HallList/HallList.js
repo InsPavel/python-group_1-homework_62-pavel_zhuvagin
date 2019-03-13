@@ -1,5 +1,6 @@
 import React, {Fragment, Component} from 'react';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 import {HALLS_URL} from "../../api-urls";
 import HallBlock from "../../componenets/HallBlock/HallBlock";
 
@@ -22,7 +23,7 @@ class HallList extends Component {
     render(){
         console.log(this.state.hall);
         return <Fragment>
-
+            <NavLink to='/halls/add'>Добавить зал</NavLink>
             <div className="row mt-2 bg-info text-center">
                 {this.state.hall.map(hall => (
                     <HallBlock hall={hall} key={hall.id}/>

@@ -8,6 +8,7 @@ import MovieDetail from "./containers/MovieDetail/MovieDetail";
 import MovieEdit from "./containers/MovieEdit/MovieEdit";
 import HallList from "./containers/HallList/HallList";
 import HallDetail from "./containers/HallDetail/HallDetail";
+import HallAdd from "./containers/HallAdd/HallAdd";
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
           <div className="container">
               <BrowserRouter>
                   <Switch>
+                      <Route path='/halls/add' component={HallAdd}/>
                       <Route path='/halls/:id' component={HallDetail}/>
                       <Route path='/halls/' component={HallList}/>
                       <Route path='/movies/add' component={MovieAdd}/>

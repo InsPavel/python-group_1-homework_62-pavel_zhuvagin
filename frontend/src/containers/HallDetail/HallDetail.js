@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {SHOWS_URL} from "../../api-urls";
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 class HallDetail extends Component {
@@ -54,6 +55,7 @@ class HallDetail extends Component {
                     Стоимость билета: {show.price} сом
                 </p>
             ))}
+            <NavLink to={'/'} className='btn btn-primary'>Movies</NavLink>
         </div>
     }
 }
