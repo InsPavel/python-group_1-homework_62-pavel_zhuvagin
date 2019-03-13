@@ -22,9 +22,11 @@ class MovieList extends  Component {
             <p><NavLink to={'/movies/add'}>Добавить фильм</NavLink></p>
             <div className='row'>
             {this.state.movies.map(movie => {
-                return <div className='col col-3'>
+                if(!movie.is_deleted) {
+                    return <div className='col col-3'>
                         <MovieCard movie={movie} key={movie.id}/>
                     </div>
+                }
             })}
             </div>
         </Fragment>
