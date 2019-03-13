@@ -20,6 +20,7 @@ class MovieList extends  Component {
     render() {
         return <Fragment>
             <p><NavLink to={'/movies/add'}>Добавить фильм</NavLink></p>
+            <p><NavLink to={'/halls/'}>Список залов</NavLink></p>
             <div className='row'>
             {this.state.movies.map(movie => {
                 if(!movie.is_deleted) {
