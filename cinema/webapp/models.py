@@ -1,6 +1,5 @@
 from django.db import models
-import random
-import string
+import random, string
 from django.conf import settings
 
 
