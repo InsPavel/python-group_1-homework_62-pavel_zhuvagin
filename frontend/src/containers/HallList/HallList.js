@@ -22,6 +22,7 @@ class HallList extends Component {
     render(){
         console.log(this.state.hall);
         return <Fragment>
+
             <div className="row mt-2 bg-info text-center">
                 {this.state.hall.map(hall => (
                     <HallBlock hall={hall} key={hall.id}/>

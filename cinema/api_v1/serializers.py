@@ -37,6 +37,12 @@ class SeatSerializer(serializers.ModelSerializer):
         fields = ('url', 'id', 'hall', 'row', 'seat', 'is_deleted')
 
 
+class InlineMovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hall
+        fields = ('id', 'name')
+
+
 class InlineHallSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hall
@@ -63,6 +69,7 @@ class ShowSerializer(serializers.ModelSerializer):
 
 class ShowDisplaySerializer(ShowSerializer):
     hall = InlineHallSerializer(read_only=True)
+    movie = InlineMovieSerializer(read_only=True)
 
 
 class DiscountSerializer(serializers.ModelSerializer):
