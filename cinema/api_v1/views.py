@@ -1,6 +1,6 @@
 from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, Book
 from rest_framework import viewsets
-from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer
+from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer, ShowDisplaySerializer
 
 
 class NoAuthModelViewSet(viewsets.ModelViewSet):
@@ -50,7 +50,12 @@ class SeatViewSet(NoAuthModelViewSet):
 
 class ShowViewSet(NoAuthModelViewSet):
     queryset = Show.objects.all()
-    serializer_class = ShowSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return ShowDisplaySerializer
+        else:
+            return ShowSerializer
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
@@ -78,3 +83,6 @@ class DiscountViewSet(NoAuthModelViewSet):
 class BookViewSet(NoAuthModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+

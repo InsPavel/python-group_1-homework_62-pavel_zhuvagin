@@ -29,20 +29,26 @@ class MovieDisplaySerializer(MovieCreateSerializer):
     categories = InlineCategorySerializer(many=True, read_only=True)
 
 
-class HallSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='api_v1:hall-detail')
-
-    class Meta:
-        model = Hall
-        fields = ('url', 'id', 'name', 'is_deleted')
-
-
 class SeatSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='api_v1:seat-detail')
 
     class Meta:
         model = Seat
         fields = ('url', 'id', 'hall', 'row', 'seat', 'is_deleted')
+
+
+class InlineHallSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hall
+        fields = ('id', 'name')
+
+
+class HallSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api_v1:hall-detail')
+
+    class Meta:
+        model = Hall
+        fields = ('url', 'id', 'name', 'is_deleted')
 
 
 class ShowSerializer(serializers.ModelSerializer):
@@ -52,7 +58,11 @@ class ShowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Show
-        fields = ('url', 'id', 'movie', 'movie_url', 'hall', 'hall_url', 'start_of_show', 'finish_of_show', 'price', 'is_deleted')
+        fields = ('url', 'id', 'movie', 'movie_url', 'hall_url', 'start_of_show', 'finish_of_show', 'price', 'hall', 'is_deleted')
+
+
+class ShowDisplaySerializer(ShowSerializer):
+    hall = InlineHallSerializer(read_only=True)
 
 
 class DiscountSerializer(serializers.ModelSerializer):
@@ -81,5 +91,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('url', 'id', 'code', 'show', 'show_url', 'get_seats_display', 'status', 'created_at', 'updated_at')
+
+
 
 
