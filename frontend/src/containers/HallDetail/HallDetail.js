@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {SHOWS_URL} from "../../api-urls";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import HallDeleteButton from "../../componenets/HallDeleteButton/HallDeleteButton";
 
 class HallDetail extends Component {
     state = {
@@ -55,7 +56,8 @@ class HallDetail extends Component {
                     Стоимость билета: {show.price} сом
                 </p>
             ))}
-            <NavLink to={'/halls/' + +match.params.id + '/edit'} className='btn btn-primary mr-2'>Edit</NavLink>
+            <NavLink to={'/halls/' + match.params.id + '/edit'} className='btn btn-primary mr-2'>Edit</NavLink>
+            <span  className="btn btn-primary mr-2"><HallDeleteButton id={match.params.id}/></span>
             <NavLink to={'/'} className='btn btn-primary'>Movies</NavLink>
         </div>
     }

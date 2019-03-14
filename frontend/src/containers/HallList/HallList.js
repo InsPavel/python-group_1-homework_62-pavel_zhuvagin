@@ -25,9 +25,11 @@ class HallList extends Component {
             <NavLink to='' className='mr-2'>Список фильмов</NavLink>
             <NavLink to='/halls/add'>Добавить зал</NavLink>
             <div className="row mt-2 text-center">
-                {this.state.hall.map(hall => (
-                    <HallBlock hall={hall} key={hall.id}/>
-                ))}
+                {this.state.hall.map(hall => {
+                    if(!hall.is_deleted) {
+                        return <HallBlock hall={hall} key={hall.id}/>
+                }
+                })}
             </div>
         </Fragment>
     }
