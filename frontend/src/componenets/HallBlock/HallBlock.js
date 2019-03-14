@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import './HallBlock.css'
 import Block from "../UI/Block/Block";
+import {NavLink} from "react-router-dom";
 
 const HallBlock = (props) => {
     const {name, id} = props.hall;
     const link = {
         url: '/halls/' + id
-    }
-    return <div className="col col-4 text-white ">
-        <Block name={name} link={link} id={id}/>
-    </div>
+    };
+
+    return <Fragment>
+        <NavLink to={link.url} className="nav_link col col-4 p-4 block" >
+            <Block name={name}/>
+        </NavLink>
+    </Fragment>
 };
 
 export default HallBlock;

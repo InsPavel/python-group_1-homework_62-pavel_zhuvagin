@@ -13,6 +13,10 @@ class HallForm extends Component {
             hall: newHall,
         };
 
+         if(this.props.hall) {
+            this.state.hall = this.props.hall;
+        }
+
      }
 
     disableSubmit = () => {

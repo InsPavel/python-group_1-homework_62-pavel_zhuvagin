@@ -19,7 +19,7 @@ class MovieShow extends Component{
                 this.setState({shows}))
             .then(show => {
                 return this.state.shows.map(movie => {
-                    if (movie.movie === this.props.id) {
+                    if (movie.movie.id === this.props.id) {
                         if (this.state.show.length < 3) {
                             this.setState((prevState => {
                                 let newState = {...prevState};

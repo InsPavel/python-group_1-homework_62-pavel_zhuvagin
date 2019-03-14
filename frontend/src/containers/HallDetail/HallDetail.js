@@ -11,7 +11,6 @@ class HallDetail extends Component {
 
     componentDidMount() {
         const match = this.props.match;
-
         axios.get(SHOWS_URL)
             .then(response => {
                 console.log(response.data);
@@ -45,6 +44,7 @@ class HallDetail extends Component {
     };
 
     render(){
+        const match = this.props.match;
         return  <div>
             <h3>Сеансы на три дня:</h3>
             {this.state.show.map(show => (
@@ -55,6 +55,7 @@ class HallDetail extends Component {
                     Стоимость билета: {show.price} сом
                 </p>
             ))}
+            <NavLink to={'/halls/' + +match.params.id + '/edit'} className='btn btn-primary mr-2'>Edit</NavLink>
             <NavLink to={'/'} className='btn btn-primary'>Movies</NavLink>
         </div>
     }

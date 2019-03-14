@@ -21,10 +21,10 @@ class HallList extends Component {
     }
 
     render(){
-        console.log(this.state.hall);
         return <Fragment>
+            <NavLink to='' className='mr-2'>Список фильмов</NavLink>
             <NavLink to='/halls/add'>Добавить зал</NavLink>
-            <div className="row mt-2 bg-info text-center">
+            <div className="row mt-2 text-center">
                 {this.state.hall.map(hall => (
                     <HallBlock hall={hall} key={hall.id}/>
                 ))}
