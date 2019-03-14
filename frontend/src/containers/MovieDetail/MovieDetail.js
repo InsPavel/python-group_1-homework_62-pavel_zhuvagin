@@ -37,7 +37,6 @@ class MovieDetail extends Component {
             <MovieShow id={id}/>
             <NavLink to={'/movies/' + id + '/edit'} className="btn btn-primary mr-2">Edit</NavLink>
             <span  className="btn btn-primary mr-2"><MovieDeleteButton id={id}/></span>
-            <NavLink to='' className="btn btn-primary">Movies</NavLink>
         </div>;
     }
 }
