@@ -1,20 +1,36 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, Component} from 'react'
 import MenuItem from "./MenuItem/MenuItem";
 
 
-const Menu = () => {
-    return <Fragment>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"/>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-                <MenuItem to="/">Фильмы</MenuItem>
-                <MenuItem to="/movies/add">Добавить фильм</MenuItem>
-            </ul>
-        </div>
-    </Fragment>
+class Menu extends Component{
+    state = {
+        collapse: true
+    };
+
+    toogle = () => {
+        this.setState({
+            collapse: !this.state.collapse
+        })
+    };
+
+    render() {
+        return <Fragment>
+            <button onClick={this.toogle}
+                    className="navbar-toggler"
+                    type="button"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"/>
+            </button>
+            <div className={(this.state.collapse ? "collapse" : '') +  " navbar-collapse"} id="navbarNav">
+                <ul className="navbar-nav">
+                    <MenuItem to="/">Фильмы</MenuItem>
+                    <MenuItem to="/movies/add">Добавить фильм</MenuItem>
+                </ul>
+            </div>
+        </Fragment>
+    }
 };
 
 
