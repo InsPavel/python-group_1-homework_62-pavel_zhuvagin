@@ -125,10 +125,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
 MEDIA_URL = '/uploads/'
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+# }
 
 BOOKING_CODE_LENGTH = 6
 

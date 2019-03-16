@@ -31,7 +31,7 @@ class Menu extends Component{
             </div>
         </Fragment>
     }
-};
+}
 
 
-export default Menu
+export default Menu;

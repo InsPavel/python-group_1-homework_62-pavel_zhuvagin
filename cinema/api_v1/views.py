@@ -20,6 +20,13 @@ class MovieViewSet(NoAuthModelViewSet):
         instance.is_deleted = True
         instance.save()
 
+    def get_queryset(self):
+        queryset = self.queryset
+        release_date = self.request.query_params.get('release_date', None)
+        if release_date is not None:
+            queryset = queryset.filter(release_date=release_date).order_by('-release_date')
+        return queryset
+
 
 class CategoryViewSet(NoAuthModelViewSet):
     queryset = Category.objects.all()
@@ -60,6 +67,20 @@ class ShowViewSet(NoAuthModelViewSet):
     def perform_destroy(self, instance):
         instance.is_deleted = True
         instance.save()
+
+    def get_queryset(self):
+        queryset = self.queryset
+        movie_id = self.request.query_params.get('movie_id', None)
+        start_of_show = self.request.query_params.get('start_of_show', None)
+        finish_of_show = self.request.query_params.get('finish_of_show', None)
+
+        if movie_id is not None:
+            queryset = queryset.filter(movie_id=movie_id)
+        if start_of_show is not None:
+            queryset = queryset.filter(start_of_show__gte=start_of_show)
+        if finish_of_show is not None:
+            queryset = queryset.filter(finish_of_show__lte=finish_of_show)
+        return queryset
 
 
 class TicketViewSet(NoAuthModelViewSet):
