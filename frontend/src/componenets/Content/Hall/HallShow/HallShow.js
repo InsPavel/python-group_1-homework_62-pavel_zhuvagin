@@ -1,7 +1,7 @@
 import React, {Fragment, Component} from 'react'
 import axios from 'axios';
 import {SHOWS_URL} from "../../../../api-urls";
-import Show from "../../Movie/MovieShow/Show/Show";
+import Show from "../../../UI/Show/Show";
 
 
 class HallShow extends Component{

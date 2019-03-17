@@ -1,7 +1,7 @@
 import React, {Fragment, Component} from 'react'
 import axios from 'axios';
 import {SHOWS_URL} from "../../../../api-urls";
-import Show from "./Show/Show";
+import Show from "../../../UI/Show/Show";
 
 
 class MovieShow extends Component{
