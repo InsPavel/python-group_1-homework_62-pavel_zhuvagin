@@ -1,6 +1,6 @@
 import React, {Fragment, Component} from 'react'
 import axios from 'axios';
-import {SHOWS_URL} from "../../api-urls";
+import {SHOWS_URL} from "../../../../api-urls";
 import Show from "./Show/Show";
 
 
@@ -18,12 +18,10 @@ class MovieShow extends Component{
 
         axios.get(SHOWS_URL + '?movie_id=' + this.props.id + '&start_of_show=' + current_date + '&finish_of_show=' + next_date)
             .then(response => {
-                console.log(response.data);
                 return response.data;
             })
             .then(shows =>{
                 this.setState({shows})
-                console.log(this.state.shows)
             })
             .catch(error => console.log(error));
     }
@@ -38,14 +36,17 @@ class MovieShow extends Component{
 
     render(){
         return <Fragment>
-            {this.state.shows.map((show) => {
-                return <Show
-                    show={show}
-                    key={show.id}
-                    date={this.formatDate}
-                    time={this.formatTime}
-                />
-            })}
+            {this.state.shows.length > 0 ? <span>
+                {this.state.shows.map((show) => {
+                    return <Show
+                        show={show}
+                        key={show.id}
+                        date={this.formatDate}
+                        time={this.formatTime}
+                    />
+                })}
+            </span> : <p>На данный фильм в ближайшие три дня сеансов нет</p>
+            }
         </Fragment>
     }
 }

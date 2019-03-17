@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import axios from "axios";
-import {HALLS_URL} from "../../api-urls";
-import HallForm from "../../componenets/HallForm/HallForm";
+import {HALLS_URL} from "../../../api-urls";
+import HallForm from "../../../componenets/Content/Hall/HallForm/HallForm";
 
 class HallEdit extends Component{
     state = {

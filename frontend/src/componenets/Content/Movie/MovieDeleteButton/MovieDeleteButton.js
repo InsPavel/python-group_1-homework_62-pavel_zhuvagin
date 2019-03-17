@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {MOVIES_URL} from "../../api-urls";
+import {MOVIES_URL} from "../../../../api-urls";
 
 class MovieDeleteButton extends Component {
     deleteMovie = () => {

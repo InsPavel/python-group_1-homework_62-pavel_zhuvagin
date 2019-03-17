@@ -1,7 +1,6 @@
 import React, {Fragment, Component} from 'react'
 import {MOVIES_URL} from "../../api-urls";
-import { NavLink } from 'react-router-dom';
-import MovieCard from "../../componenets/MovieCard/MovieCard";
+import MovieCard from "../../componenets/Content/Movie/MovieCard/MovieCard";
 
 
 class MovieList extends  Component {
@@ -22,10 +21,11 @@ class MovieList extends  Component {
             <div className='row'>
             {this.state.movies.map(movie => {
                 if(!movie.is_deleted) {
-                    return  <div className='col col-3'>
+                    return <div className='col col-3' key={movie.id}>
                         <MovieCard movie={movie} key={movie.id}/>
                     </div>
                 }
+                return null;
             })}
             </div>
         </Fragment>

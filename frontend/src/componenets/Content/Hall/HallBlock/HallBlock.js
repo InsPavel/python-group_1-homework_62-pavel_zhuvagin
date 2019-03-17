@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import './HallBlock.css'
-import Block from "../UI/Block/Block";
 import {NavLink} from "react-router-dom";
+import Block from "../../../UI/Block/Block";
 
 const HallBlock = (props) => {
     const {name, id} = props.hall;

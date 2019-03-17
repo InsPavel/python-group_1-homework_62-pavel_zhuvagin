@@ -26,7 +26,9 @@ class Menu extends Component{
             <div className={(this.state.collapse ? "collapse" : '') +  " navbar-collapse"} id="navbarNav">
                 <ul className="navbar-nav">
                     <MenuItem to="/">Фильмы</MenuItem>
+                    <MenuItem to="/halls/">Залы</MenuItem>
                     <MenuItem to="/movies/add">Добавить фильм</MenuItem>
+                    <MenuItem to="/halls/add">Добавить зал</MenuItem>
                 </ul>
             </div>
         </Fragment>

@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {MOVIES_URL} from "../../api-urls";
 import {NavLink} from "react-router-dom";
 import axios from 'axios';
-import MovieCategories from "../../componenets/MovieCategories/MovieCategories";
-import MovieShow from "../../componenets/MovieShow/MovieShow";
-import MovieDeleteButton from "../../componenets/MovieDeleteButton/MovieDeleteButton";
+import MovieCategories from "../../componenets/Content/Movie/MovieCategories/MovieCategories";
+import MovieShow from "../../componenets/Content/Movie/MovieShow/MovieShow";
+import MovieDeleteButton from "../../componenets/Content/Movie/MovieDeleteButton/MovieDeleteButton";
 
 
 class MovieDetail extends Component {
@@ -33,7 +33,6 @@ class MovieDetail extends Component {
             {categories.length > 0 ? <MovieCategories categories={categories}/> : null}
             <p className="text-secondary">В прокате c: {release_date} до: {finish_date ? finish_date : "Неизвестно"}</p>
             {description ? <p>{description}</p> : null}
-            <p>Сеансы на три дня:</p>
             <MovieShow id={id}/>
             <NavLink to={'/movies/' + id + '/edit'} className="btn btn-primary mr-2">Edit</NavLink>
             <span  className="btn btn-primary mr-2"><MovieDeleteButton id={id}/></span>

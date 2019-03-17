@@ -4,6 +4,7 @@ import React from 'react'
 const Show = (props) => {
     const {hall, start_of_show, finish_of_show, price} = props.show;
     return <div>
+        <h5>Репертуар сеансов на три дня:</h5>
         <p>
             Зал: {hall.name}.
             Дата: {props.date(start_of_show)}.

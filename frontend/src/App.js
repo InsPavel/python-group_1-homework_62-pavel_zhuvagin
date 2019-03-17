@@ -5,11 +5,11 @@ import './App.css';
 import MovieList from "./containers/MovieList/MovieList";
 import MovieAdd from "./containers/MovieAdd/MovieAdd";
 import MovieDetail from "./containers/MovieDetail/MovieDetail";
-import MovieEdit from "./containers/MovieEdit/MovieEdit";
+import MovieEdit from "./containers/MovieDetail/MovieEdit/MovieEdit";
 import HallList from "./containers/HallList/HallList";
 import HallDetail from "./containers/HallDetail/HallDetail";
 import HallAdd from "./containers/HallAdd/HallAdd";
-import HallEdit from "./containers/HallEdit/HallEdit";
+import HallEdit from "./containers/HallDetail/HallEdit/HallEdit";
 import Layout from "./componenets/Layout/Layout";
 
 class App extends Component {

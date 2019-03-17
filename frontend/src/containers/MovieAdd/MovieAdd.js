@@ -1,7 +1,7 @@
 import React, {Fragment, Component} from 'react'
 import axios from "axios";
 import {MOVIES_URL} from "../../api-urls";
-import MovieForm from "../../componenets/MovieForm/MovieForm";
+import MovieForm from "../../componenets/Content/Movie/MovieForm/MovieForm";
 
 class MovieAdd extends Component {
     state = {

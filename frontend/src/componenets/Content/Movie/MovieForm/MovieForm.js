@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from "axios";
-import {CATEGORIES_URL} from "../../api-urls";
+import {CATEGORIES_URL} from "../../../../api-urls";
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
 

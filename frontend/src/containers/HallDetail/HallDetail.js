@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {HALLS_URL, SHOWS_URL} from "../../api-urls";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
-import HallDeleteButton from "../../componenets/HallDeleteButton/HallDeleteButton";
+import HallDeleteButton from "../../componenets/Content/Hall/HallDeleteButton/HallDeleteButton";
 
 class HallDetail extends Component {
     state = {
@@ -76,8 +76,6 @@ class HallDetail extends Component {
                 </span> : <p>На данный момент сеансов в этом зале нет</p>
             }
                 <span  className="btn btn-primary mr-2"><HallDeleteButton id={match.params.id}/></span>
-                <NavLink to={'/'} className='btn btn-primary mr-2'>Movies</NavLink>
-                <NavLink to={'/halls/'} className='btn btn-primary'>Halls</NavLink>
             </div>
     }
 }

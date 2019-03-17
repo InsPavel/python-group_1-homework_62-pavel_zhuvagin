@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {HALLS_URL} from "../../api-urls";
+import {HALLS_URL} from "../../../../api-urls";
 
 class HallDeleteButton extends Component {
     deleteMovie = () => {
