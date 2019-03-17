@@ -1,6 +1,7 @@
 import React, {Fragment, Component} from 'react'
 import axios from 'axios';
 import {SHOWS_URL} from "../../api-urls";
+import Show from "./Show/Show";
 
 
 class MovieShow extends Component{
@@ -22,19 +23,8 @@ class MovieShow extends Component{
             })
             .then(shows =>{
                 this.setState({shows})
+                console.log(this.state.shows)
             })
-            // .then(show => {
-            //     return this.state.shows.map(movie => {
-            //         if (movie.movie.id === this.props.id) {
-            //                 this.setState((prevState => {
-            //                     let newState = {...prevState};
-            //                     newState.show.push(movie);
-            //                     return newState;
-            //                 }))
-            //         }
-            //         return []
-            //     })
-            // })
             .catch(error => console.log(error));
     }
 
@@ -48,14 +38,14 @@ class MovieShow extends Component{
 
     render(){
         return <Fragment>
-            {this.state.shows.map((movie) => (
-                <p key={movie.id}>
-                    Зал: {movie.hall.name}.
-                    Дата: {this.formatDate(movie.start_of_show)}.
-                    Время сеанса: {this.formatTime(movie.start_of_show)} - {this.formatTime(movie.finish_of_show)}.
-                    Стоимость билета: {movie.price} сом
-                </p>
-            ))}
+            {this.state.shows.map((show) => {
+                return <Show
+                    show={show}
+                    key={show.id}
+                    date={this.formatDate}
+                    time={this.formatTime}
+                />
+            })}
         </Fragment>
     }
 }

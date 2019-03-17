@@ -22,7 +22,7 @@ class MovieList extends  Component {
             <div className='row'>
             {this.state.movies.map(movie => {
                 if(!movie.is_deleted) {
-                    return <div className='col col-3'>
+                    return  <div className='col col-3'>
                         <MovieCard movie={movie} key={movie.id}/>
                     </div>
                 }
