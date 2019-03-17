@@ -3,6 +3,7 @@ import {HALLS_URL, SHOWS_URL} from "../../api-urls";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import HallDeleteButton from "../../componenets/Content/Hall/HallDeleteButton/HallDeleteButton";
+import HallShow from "../../componenets/Content/Hall/HallShow/HallShow";
 
 class HallDetail extends Component {
     state = {
@@ -62,19 +63,8 @@ class HallDetail extends Component {
         const match = this.props.match;
         return  <div>
             <h3>Зал: {this.state.hall.name}</h3>
-            <h5>Репертуар сеансов на три дня:</h5>
-            {this.state.show.length > 0 ? <span>
-                {this.state.show.map(show => (
-                    <p key={show.id}>
-                        Фильм: {show.movie.name}.
-                        Дата: {this.formatDate(show.start_of_show)}.
-                        Время сеанса: {this.formatTime(show.start_of_show)} - {this.formatTime(show.finish_of_show)}.
-                        Стоимость билета: {show.price} сом
-                    </p>
-                ))}
+                <HallShow id={match.params.id}/>
                 <NavLink to={'/halls/' + match.params.id + '/edit'} className='btn btn-primary mr-2'>Edit</NavLink>
-                </span> : <p>На данный момент сеансов в этом зале нет</p>
-            }
                 <span  className="btn btn-primary mr-2"><HallDeleteButton id={match.params.id}/></span>
             </div>
     }

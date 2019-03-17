@@ -1,10 +1,10 @@
 import React, {Fragment, Component} from 'react'
 import axios from 'axios';
 import {SHOWS_URL} from "../../../../api-urls";
-import Show from "./Show/Show";
+import Show from "../../Movie/MovieShow/Show/Show";
 
 
-class MovieShow extends Component{
+class HallShow extends Component{
     state = {
         shows: [],
     };
@@ -16,7 +16,7 @@ class MovieShow extends Component{
         current_date = current_date.toISOString().slice(0, 10);
         next_date = next_date.toISOString().slice(0, 10);
 
-        axios.get(SHOWS_URL + '?movie_id=' + this.props.id + '&start_of_show=' + current_date + '&finish_of_show=' + next_date)
+        axios.get(SHOWS_URL + '?hall_id=' + this.props.id + '&start_of_show=' + current_date + '&finish_of_show=' + next_date)
             .then(response => {
                 return response.data;
             })
@@ -36,10 +36,10 @@ class MovieShow extends Component{
                         key={show.id}
                     />
                 })}
-            </span> : <p>На данный фильм в ближайшие три дня сеансов нет</p>
+            </span> : <p>В данном зале на ближайшие три дня сеансов нет</p>
             }
         </Fragment>
     }
 }
 
-export default MovieShow;
+export default HallShow;

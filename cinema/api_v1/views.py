@@ -71,11 +71,14 @@ class ShowViewSet(NoAuthModelViewSet):
     def get_queryset(self):
         queryset = self.queryset
         movie_id = self.request.query_params.get('movie_id', None)
+        hall_id = self.request.query_params.get('hall_id', None)
         start_of_show = self.request.query_params.get('start_of_show', None)
         finish_of_show = self.request.query_params.get('finish_of_show', None)
 
         if movie_id is not None:
             queryset = queryset.filter(movie_id=movie_id)
+        if hall_id is not None:
+            queryset = queryset.filter(hall_id=hall_id)
         if start_of_show is not None:
             queryset = queryset.filter(start_of_show__gte=start_of_show)
         if finish_of_show is not None:
