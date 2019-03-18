@@ -47,13 +47,13 @@
 },
 {
   "model": "webapp.movie",
-  "pk": 12,
+  "pk": 17,
   "fields": {
-    "name": "test",
+    "name": "test1",
     "description": "test",
     "poster": "",
-    "release_date": "2019-03-04",
-    "finish_date": "2019-03-08",
+    "release_date": "2019-03-03",
+    "finish_date": "2019-03-18",
     "is_deleted": true,
     "categories": [
       3
@@ -127,6 +127,22 @@
   }
 },
 {
+  "model": "webapp.hall",
+  "pk": 12,
+  "fields": {
+    "name": "test",
+    "is_deleted": false
+  }
+},
+{
+  "model": "webapp.hall",
+  "pk": 13,
+  "fields": {
+    "name": "test2",
+    "is_deleted": true
+  }
+},
+{
   "model": "webapp.seat",
   "pk": 1,
   "fields": {
@@ -192,8 +208,8 @@
   "fields": {
     "movie": 3,
     "hall": 1,
-    "start_of_show": "2019-03-19T08:00:00Z",
-    "finish_of_show": "2019-03-19T10:20:00Z",
+    "start_of_show": "2019-03-16T08:00:00Z",
+    "finish_of_show": "2019-03-16T10:20:00Z",
     "price": "500.00",
     "is_deleted": false
   }
@@ -252,9 +268,45 @@
   "fields": {
     "movie": 2,
     "hall": 3,
-    "start_of_show": "2019-03-10T05:45:00Z",
-    "finish_of_show": "2019-03-10T08:20:00Z",
+    "start_of_show": "2019-03-18T05:45:00Z",
+    "finish_of_show": "2019-03-18T08:20:00Z",
     "price": "240.00",
+    "is_deleted": false
+  }
+},
+{
+  "model": "webapp.show",
+  "pk": 7,
+  "fields": {
+    "movie": 3,
+    "hall": 9,
+    "start_of_show": "2019-03-15T22:00:00Z",
+    "finish_of_show": "2019-03-16T01:00:00Z",
+    "price": "450.00",
+    "is_deleted": false
+  }
+},
+{
+  "model": "webapp.show",
+  "pk": 8,
+  "fields": {
+    "movie": 4,
+    "hall": 1,
+    "start_of_show": "2019-03-18T23:00:00Z",
+    "finish_of_show": "2019-03-19T01:00:00Z",
+    "price": "320.00",
+    "is_deleted": false
+  }
+},
+{
+  "model": "webapp.show",
+  "pk": 9,
+  "fields": {
+    "movie": 3,
+    "hall": 2,
+    "start_of_show": "2019-03-20T09:00:00Z",
+    "finish_of_show": "2019-03-22T12:00:00Z",
+    "price": "350.00",
     "is_deleted": false
   }
 },

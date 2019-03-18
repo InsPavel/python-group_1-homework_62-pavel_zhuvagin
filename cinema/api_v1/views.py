@@ -20,13 +20,6 @@ class MovieViewSet(NoAuthModelViewSet):
         instance.is_deleted = True
         instance.save()
 
-    def get_queryset(self):
-        queryset = self.queryset
-        release_date = self.request.query_params.get('release_date', None)
-        if release_date is not None:
-            queryset = queryset.filter(release_date=release_date).order_by('-release_date')
-        return queryset
-
 
 class CategoryViewSet(NoAuthModelViewSet):
     queryset = Category.objects.all()
