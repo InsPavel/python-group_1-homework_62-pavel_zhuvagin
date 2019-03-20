@@ -16,8 +16,12 @@ class Login extends Component {
         return axios.post(LOGIN_URL, this.state.credentials).then(response => {
             console.log(response);
             localStorage.setItem('auth-token', response.data.token);
-            this.props.history.push('/');
-        }).catch(error => {
+            if(this.props.location.state) {
+                this.props.history.replace(this.props.location.state.next);
+            } else {
+                this.props.history.goBack();
+            }
+    }).catch(error => {
             console.log(error);
             console.log(error.response);
         });
@@ -26,7 +30,9 @@ class Login extends Component {
     inputChanged = (event) => {
         this.setState({
             ...this.state,
-            credentials: {...this.state.credentials, [event.target.name]: event.target.value}
+            credentials: {
+                ...this.state.credentials,
+                [event.target.name]: event.target.value}
         })
     };
 

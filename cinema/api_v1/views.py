@@ -1,13 +1,18 @@
 from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, Book
 from rest_framework import viewsets
 from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer, ShowDisplaySerializer
+from rest_framework.permissions import IsAuthenticated
 
 
-class NoAuthModelViewSet(viewsets.ModelViewSet):
-    authentication_classes = []
+class BaseViewSet(viewsets.ModelViewSet):
+    def get_permissions(self):
+        permissions = super().get_permissions()
+        if self.request.method in ["POST", "DELETE", "PUT", "PATCH"]:
+            permissions.append(IsAuthenticated())
+        return permissions
 
 
-class MovieViewSet(NoAuthModelViewSet):
+class MovieViewSet(BaseViewSet):
     queryset = Movie.objects.all().order_by('-release_date')
 
     def get_serializer_class(self):
@@ -21,7 +26,7 @@ class MovieViewSet(NoAuthModelViewSet):
         instance.save()
 
 
-class CategoryViewSet(NoAuthModelViewSet):
+class CategoryViewSet(BaseViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -30,7 +35,7 @@ class CategoryViewSet(NoAuthModelViewSet):
         instance.save()
 
 
-class HallViewSet(NoAuthModelViewSet):
+class HallViewSet(BaseViewSet):
     queryset = Hall.objects.all()
     serializer_class = HallSerializer
 
@@ -39,7 +44,7 @@ class HallViewSet(NoAuthModelViewSet):
         instance.save()
 
 
-class SeatViewSet(NoAuthModelViewSet):
+class SeatViewSet(BaseViewSet):
     queryset = Seat.objects.all()
     serializer_class = SeatSerializer
 
@@ -48,7 +53,7 @@ class SeatViewSet(NoAuthModelViewSet):
         instance.save()
 
 
-class ShowViewSet(NoAuthModelViewSet):
+class ShowViewSet(BaseViewSet):
     queryset = Show.objects.all()
 
     def get_serializer_class(self):
@@ -79,7 +84,7 @@ class ShowViewSet(NoAuthModelViewSet):
         return queryset
 
 
-class TicketViewSet(NoAuthModelViewSet):
+class TicketViewSet(BaseViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
@@ -88,7 +93,7 @@ class TicketViewSet(NoAuthModelViewSet):
         instance.save()
 
 
-class DiscountViewSet(NoAuthModelViewSet):
+class DiscountViewSet(BaseViewSet):
     queryset = Discount.objects.all()
     serializer_class = DiscountSerializer
 
@@ -97,7 +102,7 @@ class DiscountViewSet(NoAuthModelViewSet):
         instance.save()
 
 
-class BookViewSet(NoAuthModelViewSet):
+class BookViewSet(BaseViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 

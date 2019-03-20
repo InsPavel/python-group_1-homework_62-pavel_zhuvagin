@@ -13,6 +13,7 @@ import HallEdit from "./containers/HallDetail/HallEdit/HallEdit";
 import Layout from "./componenets/Layout/Layout";
 import Login from "./containers/Login/Login";
 import Logout from "./containers/Logout/Logout";
+import AuthRoute from "./componenets/AuthRoute/AuthRoute";
 
 class App extends Component {
   render() {
@@ -21,12 +22,12 @@ class App extends Component {
               <BrowserRouter>
                   <Layout>
                       <Switch>
-                          <Route path='/halls/:id/edit' component={HallEdit}/>
-                          <Route path='/halls/add' component={HallAdd}/>
+                          <AuthRoute path='/halls/:id/edit' component={HallEdit}/>
+                          <AuthRoute path='/halls/add' component={HallAdd}/>
                           <Route path='/halls/:id' component={HallDetail}/>
                           <Route path='/halls/' component={HallList}/>
-                          <Route path='/movies/add' component={MovieAdd}/>
-                          <Route path='/movies/:id/edit' component={MovieEdit}/>
+                          <AuthRoute path='/movies/add' component={MovieAdd}/>
+                          <AuthRoute path='/movies/:id/edit' component={MovieEdit}/>
                           <Route path='/movies/:id' component={MovieDetail} />
                           <Route path='/login' component={Login} />
                           <Route path='/logout' component={Logout} />
