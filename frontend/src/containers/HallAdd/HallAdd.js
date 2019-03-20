@@ -18,12 +18,11 @@ class HallAdd extends Component {
 
     formSubmitted = (data) => {
         console.log(this.state);
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-        });
-
         return axios.post(HALLS_URL, data, {
-            headers: headers
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+            }
         })
             .then(response => {
                 const hall = response.data;

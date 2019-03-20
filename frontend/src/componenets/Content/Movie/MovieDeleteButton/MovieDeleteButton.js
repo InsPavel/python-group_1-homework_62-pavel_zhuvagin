@@ -4,7 +4,10 @@ import {MOVIES_URL} from "../../../../api-urls";
 
 class MovieDeleteButton extends Component {
     deleteMovie = () => {
-        axios.delete(MOVIES_URL + this.props.id + '/', { data: { foo: "bar" } })
+        axios.delete(MOVIES_URL + this.props.id + '/', {
+            data: { foo: "bar" },
+            headers: { 'Authorization': 'Token ' + localStorage.getItem('auth-token')}
+            })
             .then(movie => window.history.back())
     };
 

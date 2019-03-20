@@ -4,8 +4,11 @@ import {HALLS_URL} from "../../../../api-urls";
 
 class HallDeleteButton extends Component {
     deleteMovie = () => {
-        axios.delete(HALLS_URL + this.props.id + '/', { data: { foo: "bar" } })
-            .then(hall => window.history.back())
+        axios.delete(HALLS_URL + this.props.id + '/', {
+            data: { foo: "bar" },
+            headers: {'Authorization': 'Token ' + localStorage.getItem('auth-token')}
+        })
+        .then(hall => window.history.back())
     };
 
     render(){

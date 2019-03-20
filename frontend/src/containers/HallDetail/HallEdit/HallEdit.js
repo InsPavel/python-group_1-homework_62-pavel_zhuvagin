@@ -36,7 +36,10 @@ class HallEdit extends Component{
 
     formSubmitted = (data) => {
         return axios.put(HALLS_URL + this.props.match.params.id + '/', data, {
-            headers: {'Content-Type': 'application/json',}
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+            }
         })
             .then(response => {
                 const hall = response.data;
