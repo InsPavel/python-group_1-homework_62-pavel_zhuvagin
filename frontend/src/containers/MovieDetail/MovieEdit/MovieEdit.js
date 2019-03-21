@@ -8,6 +8,7 @@ class MovieEdit extends Component {
     state = {
         movie: null,
         alert: null,
+        errors: {}
     };
 
     componentDidMount() {
@@ -27,6 +28,14 @@ class MovieEdit extends Component {
                 console.log(error.response);
             });
     }
+
+    showErrors = (name) => {
+        if(this.state.errors && this.state.errors[name]){
+            return this.state.errors[name].map((error, index) => <p
+                className="text-danger" key={index}>{error}</p>)
+        }
+        return null;
+    };
 
     showErrorAlert = (error) => {
         this.setState(prevState => {
@@ -69,6 +78,10 @@ class MovieEdit extends Component {
                 console.log(error);
                 console.log(error.response);
                 this.showErrorAlert(error.response);
+                this.setState({
+                ...this.state,
+                errors: error.response.data
+            })
             });
     };
 
@@ -76,7 +89,7 @@ class MovieEdit extends Component {
         const {alert, movie} = this.state;
         return <Fragment>
             {alert ? <div className={"mb-2 alert alert-" + alert.type}>{alert.message}</div> : null}
-            {movie ? <MovieForm onSubmit={this.formSubmitted} movie={movie}/> : null}
+            {movie ? <MovieForm onSubmit={this.formSubmitted} showErrors={this.showErrors} movie={movie}/> : null}
         </Fragment>
     }
 }

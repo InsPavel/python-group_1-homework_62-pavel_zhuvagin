@@ -8,7 +8,7 @@ const AuthRoute = (props) => {
         console.log(props.location.pathname);
         return <Redirect to={{
             pathname: "/login",
-            state: {next: props.location.pathname}
+            state: {next: props.location}
         }}/>
     }
 };

@@ -22,7 +22,7 @@ class MovieForm extends Component {
             categories: [],
             submitEnabled: true,
             movie: newMovie,
-            posterFileName: ""
+            posterFileName: "",
         };
 
         if(this.props.movie) {
@@ -102,7 +102,7 @@ class MovieForm extends Component {
     };
 
     dateChanged = (field, date) => {
-        this.updateMovieState(field, date.toISOString().slice(0, 10));
+        return date ? this.updateMovieState(field, date.toISOString().slice(0, 10)) : null;
     };
 
     selectChanged = (field, values) => {
@@ -146,11 +146,13 @@ class MovieForm extends Component {
                         <label className="font-weight-bold">Название</label>
                         <input type="text" className="form-control" name="name" value={name}
                                onChange={this.inputChanged}/>
+                        {this.props.showErrors('name')}
                     </div>
                     <div className="form-group">
                         <label>Описание</label>
                         <input type="text" className="form-control" name="description" value={description}
                                onChange={this.inputChanged}/>
+                        {this.props.showErrors('description')}
                     </div>
                     <div className="form-group">
                         <label className="font-weight-bold">Дата выхода</label>
@@ -158,14 +160,20 @@ class MovieForm extends Component {
                             <DatePicker dateFormat="yyyy-MM-dd" selected={releaseDateSelected}
                                         className="form-control"
                                         name="release_date"
-                                        onChange={(date) => this.dateChanged('release_date', date)}/>
+                                        onChange={(date) => this.dateChanged('release_date', date)}
+                                        />
                         </div>
+                        {this.props.showErrors('release_date')}
                     </div>
                     <div className="form-group">
                         <label>Дата завершения проката</label>
                         <div>
-                            <DatePicker dateFormat="yyyy-MM-dd" selected={finishDateSelected} className="form-control"
-                                        name="finish_date" onChange={(date) => this.dateChanged('finish_date', date)}/>
+                            <DatePicker dateFormat="yyyy-MM-dd"
+                                        selected={finishDateSelected}
+                                        className="form-control"
+                                        name="finish_date"
+                                        onChange={(date) => this.dateChanged('finish_date', date)}
+                            />
                         </div>
                     </div>
                     <div className="form-group">

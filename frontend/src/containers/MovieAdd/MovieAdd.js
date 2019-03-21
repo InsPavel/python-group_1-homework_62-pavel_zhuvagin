@@ -6,6 +6,7 @@ import MovieForm from "../../componenets/Content/Movie/MovieForm/MovieForm";
 class MovieAdd extends Component {
     state = {
         alert: null,
+        errors: {}
     };
 
     showErrorAlert = (error) => {
@@ -14,6 +15,14 @@ class MovieAdd extends Component {
             newState.alert = {type: 'danger', message: `Movie was not added!`};
             return newState;
         });
+    };
+
+    showErrors = (name) => {
+        if(this.state.errors && this.state.errors[name]){
+            return this.state.errors[name].map((error, index) => <p
+                className="text-danger" key={index}>{error}</p>)
+        }
+        return null;
     };
 
     gatherFormData = (movie) => {
@@ -49,6 +58,10 @@ class MovieAdd extends Component {
                 console.log(error);
                 console.log(error.response);
                 this.showErrorAlert(error.response);
+                this.setState({
+                ...this.state,
+                errors: error.response.data
+            })
             });
     };
 
@@ -57,7 +70,7 @@ class MovieAdd extends Component {
         const alert = this.state.alert;
         return <Fragment>
             {alert ? <div className={"mb-2 alert alert-" + alert.type}>{alert.message}</div> : null}
-            <MovieForm onSubmit={this.formSubmitted}/>
+            <MovieForm onSubmit={this.formSubmitted} showErrors={this.showErrors}/>
         </Fragment>
     }
 }

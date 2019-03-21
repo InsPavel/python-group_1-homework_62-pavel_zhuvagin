@@ -7,6 +7,7 @@ class HallEdit extends Component{
     state = {
         hall: null,
         alert: null,
+        errors: {}
     };
 
     componentDidMount() {
@@ -50,14 +51,26 @@ class HallEdit extends Component{
                 console.log(error);
                 console.log(error.response);
                 this.showErrorAlert(error.response);
+                this.setState({
+                    ...this.state,
+                    errors: error.response.data
+                })
             });
+    };
+
+    showErrors = (name) => {
+        if(this.state.errors && this.state.errors[name]){
+            return this.state.errors[name].map((error, index) => <p
+                className="text-danger" key={index}>{error}</p>)
+        }
+        return null;
     };
 
     render(){
         const {alert, hall} = this.state;
         return <Fragment>
             {alert ? <div className={"mb-2 alert alert-" + alert.type}>{alert.message}</div> : null}
-            {hall ? <HallForm onSubmit={this.formSubmitted} hall={hall}/> : null}
+            {hall ? <HallForm onSubmit={this.formSubmitted} showErrors={this.showErrors} hall={hall}/> : null}
         </Fragment>
     }
 }

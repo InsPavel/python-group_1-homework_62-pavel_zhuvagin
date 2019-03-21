@@ -70,6 +70,7 @@ class HallForm extends Component {
                         <label className="font-weight-bold">Название</label>
                         <input type="text" className="form-control" name="name" value={name}
                                onChange={this.inputChanged}/>
+                        {this.props.showErrors('name')}
                     </div>
                 <button type="submit" disabled={!submitEnabled}
                             className="btn btn-primary">Сохранить

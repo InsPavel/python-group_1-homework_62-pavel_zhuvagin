@@ -8,7 +8,8 @@ class Login extends Component {
         credentials: {
             username: "",
             password: ""
-        }
+        },
+        errors: {}
     };
 
     formSubmitted = (event) => {
@@ -24,6 +25,10 @@ class Login extends Component {
     }).catch(error => {
             console.log(error);
             console.log(error.response);
+            this.setState({
+                ...this.state,
+                errors: error.response.data
+            })
         });
     };
 
@@ -36,18 +41,29 @@ class Login extends Component {
         })
     };
 
+    showErrors = (name) => {
+        if(this.state.errors && this.state.errors[name]){
+            return this.state.errors[name].map((error, index) => <p
+                className="text-danger" key={index}>{error}</p>)
+        }
+        return null;
+    };
+
     render() {
         const {username, password} = this.state.credentials;
         return <form onSubmit={this.formSubmitted}>
+            {this.showErrors('non_field_errors')}
             <div className="form-row">
                 <label className="font-weight-bold">Имя пользователя</label>
                 <input type="text" className="form-control" name="username" value={username}
                        onChange={this.inputChanged}/>
+                {this.showErrors('username')}
             </div>
             <div className="form-row">
                 <label className="font-weight-bold">Пароль</label>
                 <input type="password" className="form-control" name="password" value={password}
                        onChange={this.inputChanged}/>
+                {this.showErrors('password')}
             </div>
             <button type="submit" className="btn btn-primary mt-2">Войти</button>
         </form>
