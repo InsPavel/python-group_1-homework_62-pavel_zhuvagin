@@ -1,5 +1,8 @@
 import React, {Fragment, Component} from 'react'
 import MenuItem from "./MenuItem/MenuItem";
+import {NavLink} from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 
 class Menu extends Component{
@@ -37,11 +40,24 @@ class Menu extends Component{
                 </ul>
                 <ul className='navbar-nav ml-auto'>
                     {username ? [
-                        <li className="nav-item" key="username"><span className="navbar-text">Привет, {username}!</span></li>,
-                        <MenuItem to="/logout" key="logout">Выйти</MenuItem>
+                        <li className="nav-item" key="username">
+                            <span className="navbar-text mr-3">
+                                <NavLink to='/cabinet'>
+                                    Привет, {username}!
+                                    <FontAwesomeIcon icon="user" />
+                                </NavLink>
+                            </span>
+                        </li>,
+                        <MenuItem to="/logout" key="logout">
+                            Выйти<FontAwesomeIcon icon="door-open" />
+                        </MenuItem>
                     ] : [
-                        <MenuItem to="/login" key='login'>Войти</MenuItem>,
-                        <MenuItem to="/register" key='register'>Зарегистрироваться</MenuItem>
+                        <MenuItem to="/login" key='login'>
+                            Войти<FontAwesomeIcon icon="door-closed" />
+                        </MenuItem>,
+                        <MenuItem to="/register" key='register'>
+                            Зарегистрироваться<FontAwesomeIcon icon="key" />
+                        </MenuItem>
                     ]}
                 </ul>
             </div>

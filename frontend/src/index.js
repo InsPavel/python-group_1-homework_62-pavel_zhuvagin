@@ -5,6 +5,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-datepicker/dist/react-datepicker.css";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUser, faDoorOpen, faDoorClosed, faKey } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faDoorOpen, faDoorClosed, faKey);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

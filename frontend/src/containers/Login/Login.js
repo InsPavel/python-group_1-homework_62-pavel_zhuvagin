@@ -7,7 +7,7 @@ class Login extends Component {
     state = {
         credentials: {
             username: "",
-            password: ""
+            password: "",
         },
         errors: {}
     };
@@ -20,6 +20,9 @@ class Login extends Component {
             localStorage.setItem('username', response.data.username);
             localStorage.setItem('is_admin', response.data.is_admin);
             localStorage.setItem('is_staff', response.data.is_staff);
+            localStorage.setItem('first_name', response.data.first_name);
+            localStorage.setItem('last_name', response.data.last_name);
+            localStorage.setItem('email', response.data.email);
             if(this.props.location.state) {
                 this.props.history.replace(this.props.location.state.next);
             } else {

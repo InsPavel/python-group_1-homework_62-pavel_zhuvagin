@@ -20,7 +20,10 @@ class LoginView(ObtainAuthToken):
             'token': token.key,
             'username': user.username,
             'is_admin': user.is_superuser,
-            'is_staff': user.is_staff
+            'is_staff': user.is_staff,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
         })
 
 
