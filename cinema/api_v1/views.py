@@ -2,15 +2,33 @@ from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, B
 from rest_framework import viewsets
 from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer, ShowDisplaySerializer, UserSerializer
 from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.response import Response
 from django.contrib.auth.models import User
+
+
+class LoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'username': user.username,
+            'is_admin': user.is_superuser,
+            'is_staff': user.is_staff
+        })
 
 
 class BaseViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permissions = super().get_permissions()
         if self.request.method in ["POST", "DELETE", "PUT", "PATCH"]:
-            permissions.append(IsAuthenticated())
+            permissions.append(IsAuthenticated(), IsAdminUser())
         return permissions
 
 
@@ -107,6 +125,7 @@ class DiscountViewSet(BaseViewSet):
 class BookViewSet(BaseViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
 
 class UserCreateView(CreateAPIView):
     model = User
