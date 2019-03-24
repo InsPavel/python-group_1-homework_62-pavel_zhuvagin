@@ -24,6 +24,7 @@ class LoginView(ObtainAuthToken):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'email': user.email,
+            'id': user.id
         })
 
 
@@ -130,10 +131,20 @@ class BookViewSet(BaseViewSet):
     serializer_class = BookSerializer
 
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
 class UserCreateView(CreateAPIView):
     model = User
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+
+
+
+
 
 
 
