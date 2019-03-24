@@ -23,6 +23,7 @@ class Login extends Component {
             localStorage.setItem('first_name', response.data.first_name);
             localStorage.setItem('last_name', response.data.last_name);
             localStorage.setItem('email', response.data.email);
+            localStorage.setItem('user_id', response.data.id);
             if(this.props.location.state) {
                 this.props.history.replace(this.props.location.state.next);
             } else {

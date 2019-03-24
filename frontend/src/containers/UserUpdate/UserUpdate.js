@@ -1,57 +1,49 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
-import {LOGIN_URL, REGISTER_URL} from "../../api-urls";
+import {USER_URL} from "../../api-urls";
+// import { Button } from 'reactstrap';
 
 
-class Register extends Component {
+class UserUpdate extends Component {
     state = {
-        user: {
-            'first_name': '',
-            'last_name': '',
-            'username': '',
-            'password': '',
-            'passwordConfirm': '',
-            'email': ''
-        },
+        user: {},
         errors: {}
     };
 
-    passwordsMatch = () => {
+
+    componentDidMount(){
+        const user_id = localStorage.getItem('user_id');
+        return axios.get(USER_URL + user_id)
+            .then(response => {
+            console.log(response.data);
+            const user = response.data;
+            this.setState(prevState => {
+                const newState = {...prevState};
+                newState.user = user;
+                return newState;
+            });
+        })
+    }
+
+     passwordsMatch = () => {
         const {password, passwordConfirm} = this.state.user;
         return password === passwordConfirm
     };
 
-
-    performLogin = (username, password) => {
-        axios.post(LOGIN_URL, {username, password}).then(response => {
-            console.log(response);
-            localStorage.setItem('auth-token', response.data.token);
-            localStorage.setItem('username', response.data.username );
-            localStorage.setItem('is_admin', response.data.is_admin);
-            localStorage.setItem('is_staff', response.data.is_staff);
-            localStorage.setItem('first_name', response.data.first_name);
-            localStorage.setItem('last_name', response.data.last_name);
-            localStorage.setItem('email', response.data.email);
-            localStorage.setItem('user_id', response.data.id);
-            this.props.history.replace('/');
-        }).catch(error => {
-                console.log(error);
-                console.log(error.response);
-                this.setState({
-                    ...this.state,
-                    errors: error.response.data
-                })
-            });
-    };
-
     formSubmitted = (event) => {
+        const user_id = localStorage.getItem('user_id');
         event.preventDefault();
         if (this.passwordsMatch()) {
             const {passwordConfirm, ...restData} = this.state.user;
-            const {username, password} = this.state.user;
-            return axios.post(REGISTER_URL, restData).then(response => {
-                console.log(response);
-                this.performLogin(username, password)
+            return axios.put(USER_URL + user_id + '/', restData, {
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+            }
+            }).then(response => {
+                const hall = response.data;
+                console.log(hall);
+                this.props.history.replace('/cabinet/');
             }).catch(error => {
                 console.log(error);
                 console.log(error.response);
@@ -101,52 +93,46 @@ class Register extends Component {
     };
 
     render() {
-        const {username, password, passwordConfirm, email, first_name, last_name} = this.state.user;
+        const {password, passwordConfirm, email, first_name, last_name} = this.state.user;
         return <Fragment>
-            <h2>Регистрация</h2>
+            <h2>Редактировать данные</h2>
             <form onSubmit={this.formSubmitted}>
                 {this.showErrors('non_field_errors')}
                 <div className="form-row">
                     <label className="font-weight-bold">Имя</label>
-                    <input type="text" className="form-control" name="first_name" value={first_name}
+                    <input type="text" className="form-control" name="first_name" defaultValue={first_name}
                            onChange={this.inputChanged}/>
                     {this.showErrors('first_name')}
                 </div>
                 <div className="form-row">
                     <label className="font-weight-bold">Фамилия</label>
-                    <input type="text" className="form-control" name="last_name" value={last_name}
+                    <input type="text" className="form-control" name="last_name" defaultValue={last_name}
                            onChange={this.inputChanged}/>
                     {this.showErrors('last_name')}
                 </div>
                 <div className="form-row">
-                    <label className="font-weight-bold">Имя пользователя</label>
-                    <input type="text" className="form-control" name="username" value={username}
-                           onChange={this.inputChanged}/>
-                    {this.showErrors('username')}
-                </div>
-                <div className="form-row">
                     <label className="font-weight-bold">Пароль</label>
-                    <input type="password" className="form-control" name="password" value={password}
+                    <input type="password" className="form-control" name="password" defaultValue={password}
                            onChange={this.inputChanged}/>
                     {this.showErrors('password')}
                 </div>
                 <div className="form-row">
                     <label className="font-weight-bold">Подтверждение пароля</label>
-                    <input type="password" className="form-control" name="passwordConfirm" value={passwordConfirm}
+                    <input type="password" className="form-control" name="passwordConfirm" defaultValue={passwordConfirm}
                            onChange={this.passwordConfrimChange}/>
                     {this.showErrors('passwordConfirm')}
                 </div>
                 <div className="form-row">
                     <label className="font-weight-bold">E-mail</label>
-                    <input type="email" className="form-control" name="email" value={email}
+                    <input type="email" className="form-control" name="email" defaultValue={email}
                            onChange={this.inputChanged}/>
                     {this.showErrors('email')}
                 </div>
-                <button type="submit" className="btn btn-primary mt-2">Создать учётную запись</button>
+                <button type="submit" className="btn btn-primary mt-2">Редактировать</button>
             </form>
         </Fragment>
     }
 }
 
 
-export default Register;
+export default UserUpdate;
