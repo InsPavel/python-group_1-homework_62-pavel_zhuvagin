@@ -26,6 +26,7 @@ class Cabinet extends Component {
     render(){
         const {username, email, first_name, last_name} = this.state.user;
         return <Fragment>
+            <h2>Личный кабинет</h2>
             <table className="table table-bordered mt-5">
                 <thead>
                 <tr>

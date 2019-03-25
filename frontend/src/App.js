@@ -16,7 +16,7 @@ import Logout from "./containers/Logout/Logout";
 import AuthRoute from "./componenets/AuthRoute/AuthRoute";
 import Register from "./containers/Register/Register";
 import Cabinet from "./containers/Cabinet/Cabinet";
-import UserUpdate from "./containers/UserUpdate/UserUpdate";
+import UserUpdateForm from "./containers/UserUpdateForm/UserUpdateForm";
 
 class App extends Component {
   render() {
@@ -36,7 +36,7 @@ class App extends Component {
                           <Route path='/logout' component={Logout} />
                           <Route path='/register' component={Register} />
                           <Route path='/cabinet' component={Cabinet} />
-                          <Route path='/users/:id/update' component={UserUpdate} />
+                          <Route path='/users/:id/update' component={UserUpdateForm} />
                           <Route path='/' component={MovieList}/>
                       </Switch>
                   </Layout>

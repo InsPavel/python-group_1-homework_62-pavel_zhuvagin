@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import UserUpdate from "../../../containers/UserUpdate/UserUpdate";
+import UserUpdateForm from "../../../containers/UserUpdateForm/UserUpdateForm";
 
 class ModalExample extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class ModalExample extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Редактировать данные</ModalHeader>
           <ModalBody>
-            <UserUpdate
+            <UserUpdateForm
                 state={this.props.state}
                 toggle={this.toggle}
             />

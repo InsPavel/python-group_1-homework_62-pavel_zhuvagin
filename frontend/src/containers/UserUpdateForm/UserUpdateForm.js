@@ -4,7 +4,7 @@ import {USER_URL} from "../../api-urls";
 import {Button} from "reactstrap";
 
 
-class UserUpdate extends Component {
+class UserUpdateForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,10 +12,20 @@ class UserUpdate extends Component {
             errors: {}
         }
     }
+    componentDidMount(){
+        this.setState({
+            ...this.state,
+            user: {
+                ...this.state.user,
+                password: localStorage.getItem('password'),
+                passwordConfirm: localStorage.getItem('password')
+            }
+        })
+    }
 
      passwordsMatch = () => {
-        const {password, passwordConfirm} = this.state.user;
-        return password === passwordConfirm
+        const {password, passwordConfirm, passwordCheck} = this.state.user;
+        return password === passwordConfirm & passwordCheck === localStorage.getItem('password')
     };
 
     formSubmitted = (event) => {
@@ -30,7 +40,8 @@ class UserUpdate extends Component {
             }
             }).then(response => {
                 console.log(response);
-                window.location.reload()
+                window.location.reload();
+                localStorage.password = this.state.user.password;
             }).catch(error => {
                 console.log(error);
                 console.log(error.response);
@@ -39,6 +50,13 @@ class UserUpdate extends Component {
                     errors: error.response.data
                 })
             });
+        } else {
+            this.setState({
+                errors : {
+                    ...this.state.errors,
+                    passwordCheck: ['Это поле обязательно к заполнению']
+                }
+            })
         }
     };
 
@@ -72,6 +90,26 @@ class UserUpdate extends Component {
         }
     };
 
+    passwordCheckChange = (event) => {
+       this.inputChanged(event);
+       const passwordCheck = event.target.value;
+       if(passwordCheck !== localStorage.getItem('password')){
+            this.setState({
+                errors : {
+                    ...this.state.errors,
+                    passwordCheck: ['Пароль не правильный']
+                }
+            })
+        } else {
+           this.setState({
+               errors: {
+                   ...this.state.errors,
+                   passwordCheck: []
+               }
+           })
+       }
+    };
+
     showErrors = (name) => {
         if(this.state.errors && this.state.errors[name]) {
             return this.state.errors[name].map((error, index) => <p className="text-danger" key={index}>{error}</p>);
@@ -80,7 +118,7 @@ class UserUpdate extends Component {
     };
 
     render() {
-        const {password, passwordConfirm, email, first_name, last_name} = this.state.user;
+        const {password, passwordConfirm, passwordCheck, email, first_name, last_name} = this.state.user;
         return <Fragment>
             <form onSubmit={this.formSubmitted}>
                 {this.showErrors('non_field_errors')}
@@ -114,6 +152,12 @@ class UserUpdate extends Component {
                            onChange={this.inputChanged}/>
                     {this.showErrors('email')}
                 </div>
+                <div className="form-row">
+                    <label className="font-weight-bold">Введите текущий пароль</label>
+                    <input type="password" className="form-control" name="passwordCheck" defaultValue={passwordCheck}
+                           onChange={this.passwordCheckChange}/>
+                    {this.showErrors('passwordCheck')}
+                </div>
                 <div className='float-right mt-5 '>
                     <button type="submit" className="btn btn-primary mr-2" onClick={this.props.onClick}>Update</button>
                     <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
@@ -124,4 +168,4 @@ class UserUpdate extends Component {
 }
 
 
-export default UserUpdate;
+export default UserUpdateForm;
