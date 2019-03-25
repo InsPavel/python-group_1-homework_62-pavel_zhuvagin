@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
-import { NavLink } from 'react-router-dom';
 import {USER_URL} from "../../api-urls";
+import ModalExample from "../../componenets/UI/Modal/Modal";
 
 class Cabinet extends Component {
     state = {
@@ -24,7 +24,6 @@ class Cabinet extends Component {
     }
 
     render(){
-        const user_id = localStorage.getItem('user_id');
         const {username, email, first_name, last_name} = this.state.user;
         return <Fragment>
             <table className="table table-bordered mt-5">
@@ -45,7 +44,7 @@ class Cabinet extends Component {
                 </tr>
                 </tbody>
             </table>
-            <NavLink to={'/users/' + user_id + '/update'} className="btn btn-primary">Редактировать</NavLink>
+            <ModalExample state={this.state.user} buttonLabel='Редактировать'/>
         </Fragment>
     }
 }

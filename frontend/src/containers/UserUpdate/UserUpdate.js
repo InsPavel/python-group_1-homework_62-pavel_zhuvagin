@@ -1,28 +1,16 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import {USER_URL} from "../../api-urls";
-// import { Button } from 'reactstrap';
+import {Button} from "reactstrap";
 
 
 class UserUpdate extends Component {
-    state = {
-        user: {},
-        errors: {}
-    };
-
-
-    componentDidMount(){
-        const user_id = localStorage.getItem('user_id');
-        return axios.get(USER_URL + user_id)
-            .then(response => {
-            console.log(response.data);
-            const user = response.data;
-            this.setState(prevState => {
-                const newState = {...prevState};
-                newState.user = user;
-                return newState;
-            });
-        })
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: this.props.state,
+            errors: {}
+        }
     }
 
      passwordsMatch = () => {
@@ -41,9 +29,8 @@ class UserUpdate extends Component {
                 'Authorization': 'Token ' + localStorage.getItem('auth-token')
             }
             }).then(response => {
-                const hall = response.data;
-                console.log(hall);
-                this.props.history.replace('/cabinet/');
+                console.log(response);
+                window.location.reload()
             }).catch(error => {
                 console.log(error);
                 console.log(error.response);
@@ -95,18 +82,17 @@ class UserUpdate extends Component {
     render() {
         const {password, passwordConfirm, email, first_name, last_name} = this.state.user;
         return <Fragment>
-            <h2>Редактировать данные</h2>
             <form onSubmit={this.formSubmitted}>
                 {this.showErrors('non_field_errors')}
                 <div className="form-row">
                     <label className="font-weight-bold">Имя</label>
-                    <input type="text" className="form-control" name="first_name" defaultValue={first_name}
+                    <input type="text" className="form-control" name="first_name" value={first_name}
                            onChange={this.inputChanged}/>
                     {this.showErrors('first_name')}
                 </div>
                 <div className="form-row">
                     <label className="font-weight-bold">Фамилия</label>
-                    <input type="text" className="form-control" name="last_name" defaultValue={last_name}
+                    <input type="text" className="form-control" name="last_name" value={last_name}
                            onChange={this.inputChanged}/>
                     {this.showErrors('last_name')}
                 </div>
@@ -124,11 +110,14 @@ class UserUpdate extends Component {
                 </div>
                 <div className="form-row">
                     <label className="font-weight-bold">E-mail</label>
-                    <input type="email" className="form-control" name="email" defaultValue={email}
+                    <input type="email" className="form-control" name="email" value={email}
                            onChange={this.inputChanged}/>
                     {this.showErrors('email')}
                 </div>
-                <button type="submit" className="btn btn-primary mt-2">Редактировать</button>
+                <div className='float-right mt-5 '>
+                    <button type="submit" className="btn btn-primary mr-2" onClick={this.props.onClick}>Update</button>
+                    <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
+                </div>
             </form>
         </Fragment>
     }
