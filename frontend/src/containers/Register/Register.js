@@ -33,6 +33,7 @@ class Register extends Component {
             localStorage.setItem('last_name', response.data.last_name);
             localStorage.setItem('email', response.data.email);
             localStorage.setItem('user_id', response.data.id);
+            localStorage.setItem('password', this.state.user.password);
             this.props.history.replace('/');
         }).catch(error => {
                 console.log(error);
