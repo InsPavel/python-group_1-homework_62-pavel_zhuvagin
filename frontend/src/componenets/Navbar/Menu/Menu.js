@@ -1,7 +1,8 @@
 import React, {Fragment, Component} from 'react'
 import MenuItem from "./MenuItem/MenuItem";
 import {NavLink} from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {connect} from 'react-redux';
 
 
 
@@ -17,8 +18,7 @@ class Menu extends Component{
     };
 
     render() {
-        const username = localStorage.getItem('username');
-        const isAdmin = localStorage.getItem('is_admin');
+        const {username, is_admin, id} = this.props.auth;
         return <Fragment>
             <button onClick={this.toogle}
                     className="navbar-toggler"
@@ -32,14 +32,14 @@ class Menu extends Component{
                 <ul className="navbar-nav mr-auto">
                     <MenuItem to="/">Фильмы</MenuItem>
                     <MenuItem to="/halls/">Залы</MenuItem>
-                    {isAdmin === 'true' ? [
+                    {is_admin === true ? [
                         <MenuItem to="/movies/add" key="addMovie">Добавить фильм</MenuItem>,
                         <MenuItem to="/halls/add" key="addHall">Добавить зал</MenuItem>
                         ] : null
                     }
                 </ul>
                 <ul className='navbar-nav ml-auto'>
-                    {username ? [
+                    {id ? [
                         <li className="nav-item" key="username">
                             <span className="navbar-text mr-3">
                                 <NavLink to='/cabinet'>
@@ -65,5 +65,7 @@ class Menu extends Component{
     }
 }
 
+const mapStateToProps = state => ({auth: state.auth});
+const mapDispatchToProps = dispatch => ({});
 
-export default Menu;
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

@@ -1,22 +1,22 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
+import {logout} from "../../store/actions/logout";
 
 
 class Logout extends Component {
     componentDidMount() {
-        localStorage.removeItem('auth-token');
-        localStorage.removeItem('username');
-        localStorage.removeItem('is_admin');
-        localStorage.removeItem('is_staff');
-        localStorage.removeItem('first_name');
-        localStorage.removeItem('last_name');
-        localStorage.removeItem('email');
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('password');
+        this.props.logout();
         this.props.history.replace('/');
     };
 
     render() { return <h2>Выход</h2>; }
 }
 
+const mapStateToPropsState = state => ({});
 
-export default Logout;
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(logout())
+})
+
+
+export default connect(mapStateToPropsState, mapDispatchToProps)(Logout);
