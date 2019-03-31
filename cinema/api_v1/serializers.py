@@ -1,6 +1,9 @@
-from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, Book
+from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, Book
+from rest_framework.authtoken.models import Token
 
 
 class InlineCategorySerializer(serializers.ModelSerializer):
@@ -102,7 +105,23 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='api_v1:user-detail')
+    username = serializers.CharField(read_only=True)
     password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True, required=False, allow_blank=True)
+    new_password_confirm = serializers.CharField(write_only=True, required=False, allow_blank=True)
+    email = serializers.EmailField(required=False, allow_blank=False)
+
+    def validate_password(self, value):
+        user = self.context['request'].user
+        if not authenticate(username=user.username, password=value):
+            raise ValidationError('Invalid password for your account')
+        return value
+
+    def validate(self, attrs):
+        if attrs.get('new_password') != attrs.get('new_password_confirm'):
+            raise ValidationError("Passwords do not match")
+        return super().validate(attrs)
 
     def create(self, validated_data):
         password = validated_data.pop('password')
@@ -112,18 +131,30 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('password')
-        instance.email = validated_data.get('email', instance.email)
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.set_password(password)
+        validated_data.pop('password')
+        new_password = validated_data.pop('new_password')
+        validated_data.pop('new_password_confirm')
+
+        instance = super().update(instance, validated_data)
+
+        if new_password:
+            instance.set_password(new_password)
         instance.save()
         return instance
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'first_name', 'last_name', 'email']
+        fields = ['url', 'id', 'username', 'first_name', 'last_name', 'email',
+                  'password', 'new_password', 'new_password_confirm']
 
 
+class AuthTokenSerializer(serializers.Serializer):
+    token = serializers.CharField(write_only=True)
+
+    def validate_token(self, token):
+        try:
+            return Token.objects.get(key=token)
+        except Token.DoesNotExist:
+            raise ValidationError("Invalid credentials")
 
 

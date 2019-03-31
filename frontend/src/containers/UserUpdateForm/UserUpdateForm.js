@@ -2,61 +2,44 @@ import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import {USER_URL} from "../../api-urls";
 import {Button} from "reactstrap";
+import {connect} from 'react-redux';
 
 
 class UserUpdateForm extends Component {
     constructor(props) {
         super(props);
+        const {first_name, last_name, email} = this.props.auth;
         this.state = {
-            user: this.props.state,
-            errors: {}
-        }
-    }
-    componentDidMount(){
-        this.setState({
-            ...this.state,
             user: {
-                ...this.state.user,
-                password: localStorage.getItem('password'),
-                passwordConfirm: localStorage.getItem('password')
+                first_name, last_name, email,
+                password: '',
+                new_password: '',
+                new_password_confirm: '',
             }
-        })
+        };
     }
 
      passwordsMatch = () => {
-        const {password, passwordConfirm, passwordCheck} = this.state.user;
-        return password === passwordConfirm & passwordCheck === localStorage.getItem('password')
+        const {new_password, new_password_confirm} = this.state.user;
+        return new_password === new_password_confirm
     };
 
     formSubmitted = (event) => {
-        const user_id = localStorage.getItem('user_id');
+        const {token, user_id} = this.props.auth;
         event.preventDefault();
         if (this.passwordsMatch()) {
-            const {passwordConfirm, ...restData} = this.state.user;
-            return axios.put(USER_URL + user_id + '/', restData, {
+            return axios.put(USER_URL + user_id + '/', this.state.user, {
                 headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Token ' + localStorage.getItem('auth-token')
+                'Authorization': 'Token ' + token
             }
             }).then(response => {
                 console.log(response);
                 window.location.reload();
-                localStorage.password = this.state.user.password;
             }).catch(error => {
                 console.log(error);
                 console.log(error.response);
-                this.setState({
-                    ...this.state,
-                    errors: error.response.data
-                })
+
             });
-        } else {
-            this.setState({
-                errors : {
-                    ...this.state.errors,
-                    passwordCheck: ['Это поле обязательно к заполнению']
-                }
-            })
         }
     };
 
@@ -70,55 +53,16 @@ class UserUpdateForm extends Component {
         })
     };
 
-    passwordConfrimChange = (event) => {
-        this.inputChanged(event);
-        const passwordConfirm = event.target.value;
-        if(passwordConfirm !== this.state.user.password){
-            this.setState({
-                errors : {
-                    ...this.state.errors,
-                    passwordConfirm: ['Пароли не совпадают']
-                }
-            })
-        } else {
-            this.setState({
-                errors : {
-                    ...this.state.errors,
-                    passwordConfirm: []
-                }
-            })
-        }
-    };
-
-    passwordCheckChange = (event) => {
-       this.inputChanged(event);
-       const passwordCheck = event.target.value;
-       if(passwordCheck !== localStorage.getItem('password')){
-            this.setState({
-                errors : {
-                    ...this.state.errors,
-                    passwordCheck: ['Пароль не правильный']
-                }
-            })
-        } else {
-           this.setState({
-               errors: {
-                   ...this.state.errors,
-                   passwordCheck: []
-               }
-           })
-       }
-    };
 
     showErrors = (name) => {
-        if(this.state.errors && this.state.errors[name]) {
-            return this.state.errors[name].map((error, index) => <p className="text-danger" key={index}>{error}</p>);
+        if(this.props.errors && this.props.errors[name]) {
+            return this.props.errors[name].map((error, index) => <p className="text-danger" key={index}>{error}</p>);
         }
         return null;
     };
 
     render() {
-        const {password, passwordConfirm, passwordCheck, email, first_name, last_name} = this.state.user;
+        const {email, first_name, last_name, password, new_password, new_password_confirm} = this.state.user;
         return <Fragment>
             <form onSubmit={this.formSubmitted}>
                 {this.showErrors('non_field_errors')}
@@ -135,28 +79,29 @@ class UserUpdateForm extends Component {
                     {this.showErrors('last_name')}
                 </div>
                 <div className="form-row">
-                    <label className="font-weight-bold">Пароль</label>
-                    <input type="password" className="form-control" name="password" defaultValue={password}
-                           onChange={this.inputChanged}/>
-                    {this.showErrors('password')}
-                </div>
-                <div className="form-row">
-                    <label className="font-weight-bold">Подтверждение пароля</label>
-                    <input type="password" className="form-control" name="passwordConfirm" defaultValue={passwordConfirm}
-                           onChange={this.passwordConfrimChange}/>
-                    {this.showErrors('passwordConfirm')}
-                </div>
-                <div className="form-row">
                     <label className="font-weight-bold">E-mail</label>
                     <input type="email" className="form-control" name="email" value={email}
                            onChange={this.inputChanged}/>
                     {this.showErrors('email')}
                 </div>
                 <div className="form-row">
-                    <label className="font-weight-bold">Введите текущий пароль</label>
-                    <input type="password" className="form-control" name="passwordCheck" defaultValue={passwordCheck}
-                           onChange={this.passwordCheckChange}/>
-                    {this.showErrors('passwordCheck')}
+                    <label className="font-weight-bold">Старый пароль</label>
+                    <input type="password" className="form-control" name="password" value={password}
+                           onChange={this.inputChanged}/>
+                    <div className="help-block">Введите пароль, чтобы подтвердить изменения.</div>
+                    {this.showErrors('password')}
+                </div>
+                <div className="form-row">
+                    <label className="font-weight-bold">Новый пароль</label>
+                    <input type="password" className="form-control" name="new_password" value={new_password}
+                           onChange={this.inputChanged}/>
+                    {this.showErrors('new_password')}
+                </div>
+                <div className="form-row">
+                    <label>Подтверждение пароля</label>
+                    <input type="password" className="form-control" name="new_password_confirm" value={new_password_confirm}
+                           onChange={this.inputChanged}/>
+                    {this.showErrors('new_password_confirm')}
                 </div>
                 <div className='float-right mt-5 '>
                     <button type="submit" className="btn btn-primary mr-2" onClick={this.props.onClick}>Update</button>
@@ -167,5 +112,9 @@ class UserUpdateForm extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    auth: state.auth,
+});
+const mapDispatchToProps = dispatch => ({});
 
-export default UserUpdateForm;
+export default connect(mapStateToProps,mapDispatchToProps)(UserUpdateForm);

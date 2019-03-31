@@ -18,7 +18,7 @@ class Menu extends Component{
     };
 
     render() {
-        const {username, is_admin, id} = this.props.auth;
+        const {username, is_admin, user_id} = this.props.auth;
         return <Fragment>
             <button onClick={this.toogle}
                     className="navbar-toggler"
@@ -39,10 +39,10 @@ class Menu extends Component{
                     }
                 </ul>
                 <ul className='navbar-nav ml-auto'>
-                    {id ? [
+                    {user_id ? [
                         <li className="nav-item" key="username">
                             <span className="navbar-text mr-3">
-                                <NavLink to='/cabinet'>
+                                <NavLink to={"/users/" + user_id}>
                                     Привет, {username}!
                                     <FontAwesomeIcon icon="user" />
                                 </NavLink>

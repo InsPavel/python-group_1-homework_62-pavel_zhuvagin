@@ -12,11 +12,10 @@ class Logout extends Component {
     render() { return <h2>Выход</h2>; }
 }
 
-const mapStateToPropsState = state => ({});
 
+const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
     logout: () => dispatch(logout())
-})
+});
 
-
-export default connect(mapStateToPropsState, mapDispatchToProps)(Logout);
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

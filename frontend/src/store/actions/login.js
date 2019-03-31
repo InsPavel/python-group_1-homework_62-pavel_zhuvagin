@@ -21,6 +21,7 @@ export const login = (username, password) => {
         dispatch(loginRequest());
         return axios.post(LOGIN_URL, {username, password}).then(response => {
             console.log(response);
+            localStorage.setItem('auth-token', response.data.token);
             return dispatch(loginSuccess(response.data));
         }).catch(error => {
             console.log(error);
@@ -29,6 +30,7 @@ export const login = (username, password) => {
         });
     }
 };
+
 
 
 

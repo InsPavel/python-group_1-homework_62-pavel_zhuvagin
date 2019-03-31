@@ -1,10 +1,10 @@
 from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, Book
 from rest_framework import viewsets
-from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer, ShowDisplaySerializer, UserSerializer
+from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer, ShowDisplaySerializer, UserSerializer, AuthTokenSerializer
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.views import ObtainAuthToken, APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 
@@ -19,13 +19,32 @@ class LoginView(ObtainAuthToken):
         return Response({
             'token': token.key,
             'username': user.username,
-            'password': user.password,
             'is_admin': user.is_superuser,
             'is_staff': user.is_staff,
+            'user_id': user.id,
+            'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
+        })
+
+
+class TokenloginView(APIView):
+    serializer_class = AuthTokenSerializer
+
+    def post(self, request):
+        serializer = AuthTokenSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        token = serializer.validated_data['token']
+        user = token.user
+        return Response({
+            'token': token.key,
+            'username': user.username,
+            'is_admin': user.is_superuser,
+            'is_staff': user.is_staff,
+            'user_id': user.id,
             'email': user.email,
-            'id': user.id
+            'first_name': user.first_name,
+            'last_name': user.last_name,
         })
 
 
@@ -33,7 +52,8 @@ class BaseViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permissions = super().get_permissions()
         if self.request.method in ["POST", "DELETE", "PUT", "PATCH"]:
-            permissions.append(IsAuthenticated(), IsAdminUser())
+            permissions.append(IsAuthenticated())
+            permissions.append(IsAdminUser())
         return permissions
 
 
@@ -132,9 +152,20 @@ class BookViewSet(BaseViewSet):
     serializer_class = BookSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(BaseViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        permissions = super().get_permissions()
+        if self.request.method in ["POST", "DELETE", "PUT", "PATCH"]:
+            permissions.append(IsAuthenticated())
+        return permissions
+
+    def check_object_permissions(self, request, obj):
+        super().check_object_permissions(request, obj)
+        if request.method in ['PUT', 'PATCH', 'DELETE'] and obj != request.user:
+            self.permission_denied(request, 'Can not edit other users data!')
 
 
 class UserCreateView(CreateAPIView):

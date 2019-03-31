@@ -46,7 +46,6 @@ class Login extends Component {
 
     render() {
         const {username, password} = this.state.credentials;
-        localStorage.setItem('password', password);
         return <form onSubmit={this.formSubmitted}>
             {this.showErrors('non_field_errors')}
             <div className="form-row">

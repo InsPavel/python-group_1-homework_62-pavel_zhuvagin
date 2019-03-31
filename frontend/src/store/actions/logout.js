@@ -1,5 +1,8 @@
 export const LOGOUT = 'LOGOUT';
 
 export const logout = () => {
-    return {type: LOGOUT}
+    return dispatch => {
+        localStorage.removeItem('auth-token');
+        dispatch({type: LOGOUT})
+    }
 };

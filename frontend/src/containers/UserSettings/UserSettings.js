@@ -1,30 +1,16 @@
 import React, {Component, Fragment} from 'react';
-import axios from "axios";
-import {USER_URL} from "../../api-urls";
+import {connect} from 'react-redux';
 import ModalExample from "../../componenets/UI/Modal/Modal";
 
-class Cabinet extends Component {
+
+class UserSettings extends Component {
     state = {
-        user: {},
+        edit: false,
+        alert: null
     };
 
-
-    componentDidMount(){
-        const user_id = localStorage.getItem('user_id');
-        return axios.get(USER_URL + user_id)
-            .then(response => {
-            console.log(response.data);
-            const user = response.data;
-            this.setState(prevState => {
-                const newState = {...prevState};
-                newState.user = user;
-                return newState;
-            });
-        })
-    }
-
     render(){
-        const {username, email, first_name, last_name} = this.state.user;
+        const {username, email, first_name, last_name} = this.props.auth;
         return <Fragment>
             <h2>Личный кабинет</h2>
             <table className="table table-bordered mt-5">
@@ -45,9 +31,13 @@ class Cabinet extends Component {
                 </tr>
                 </tbody>
             </table>
-            <ModalExample state={this.state.user} buttonLabel='Редактировать'/>
+            <ModalExample buttonLabel='Редактировать'/>
         </Fragment>
     }
 }
 
-export default Cabinet;
+
+const mapStateToProps = state => ({auth: state.auth});
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);
