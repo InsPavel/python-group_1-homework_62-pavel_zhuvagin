@@ -15,7 +15,8 @@ class UserUpdateForm extends Component {
                 password: '',
                 new_password: '',
                 new_password_confirm: '',
-            }
+            },
+            errors: {}
         };
     }
 
@@ -38,7 +39,10 @@ class UserUpdateForm extends Component {
             }).catch(error => {
                 console.log(error);
                 console.log(error.response);
-
+                this.setState({
+                    ...this.state,
+                    errors: error.response.data
+                })
             });
         }
     };
@@ -53,10 +57,30 @@ class UserUpdateForm extends Component {
         })
     };
 
+    passwordConfrimChange = (event) => {
+        this.inputChanged(event);
+        const new_password_confirm = event.target.value;
+        if(new_password_confirm !== this.state.user.new_password){
+            this.setState({
+                errors : {
+                    ...this.state.errors,
+                    new_password_confirm: ['Пароли не совпадают']
+                }
+            })
+        } else {
+            this.setState({
+                errors : {
+                    ...this.state.errors,
+                    new_password_confirm: []
+                }
+            })
+        }
+    };
+
 
     showErrors = (name) => {
-        if(this.props.errors && this.props.errors[name]) {
-            return this.props.errors[name].map((error, index) => <p className="text-danger" key={index}>{error}</p>);
+        if(this.state.errors && this.state.errors[name]) {
+            return this.state.errors[name].map((error, index) => <p className="text-danger" key={index}>{error}</p>);
         }
         return null;
     };
@@ -100,7 +124,8 @@ class UserUpdateForm extends Component {
                 <div className="form-row">
                     <label>Подтверждение пароля</label>
                     <input type="password" className="form-control" name="new_password_confirm" value={new_password_confirm}
-                           onChange={this.inputChanged}/>
+                        onChange={this.passwordConfrimChange}
+                    />
                     {this.showErrors('new_password_confirm')}
                 </div>
                 <div className='float-right mt-5 '>
