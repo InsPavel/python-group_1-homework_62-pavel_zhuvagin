@@ -26,7 +26,7 @@ export const tokenLogin = () => {
         }).catch(error => {
             console.log(error);
             console.log(error.response);
-            localStorage.reomoveItem('auth-token');
+            localStorage.removeItem('auth-token');
             return dispatch(tokenLoginError(error.response.data));
         });
     }

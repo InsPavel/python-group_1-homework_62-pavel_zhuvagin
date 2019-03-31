@@ -15,7 +15,6 @@ import Login from "./containers/Login/Login";
 import Logout from "./containers/Logout/Logout";
 import AuthRoute from "./componenets/AuthRoute/AuthRoute";
 import Register from "./containers/Register/Register";
-import Cabinet from "./containers/Cabinet/Cabinet";
 import UserUpdateForm from "./containers/UserUpdateForm/UserUpdateForm";
 import UserSettings from "./containers/UserSettings/UserSettings";
 import {tokenLogin} from "./store/actions/token-login";
@@ -41,7 +40,6 @@ class App extends Component {
                           <Route path='/login' component={Login} />
                           <Route path='/logout' component={Logout} />
                           <Route path='/register' component={Register} />
-                          <Route path='/cabinet' component={Cabinet} />
                           <Route path='/users/:id/update' component={UserUpdateForm} />
                           <Route path='/users/:id' component={UserSettings} />
                           <Route path='/' component={MovieList}/>
