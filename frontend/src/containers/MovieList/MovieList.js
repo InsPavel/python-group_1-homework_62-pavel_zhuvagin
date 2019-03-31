@@ -1,25 +1,18 @@
 import React, {Fragment, Component} from 'react'
-import {MOVIES_URL} from "../../api-urls";
 import MovieCard from "../../componenets/Content/Movie/MovieCard/MovieCard";
+import {connect} from 'react-redux';
+import {movieList} from "../../store/actions/movieList";
 
 
 class MovieList extends  Component {
-    state = {
-       movies: [],
-    };
-
     componentDidMount(){
-        fetch(MOVIES_URL)
-            .then(response => response.json())
-            .then(json => {return json})
-            .then(movies => this.setState({movies}))
-            .catch(error => console.log(error))
+        this.props.movieList()
     }
 
     render() {
         return <Fragment>
             <div className='row'>
-            {this.state.movies.map(movie => {
+            {this.props.movie.map(movie => {
                 if(!movie.is_deleted) {
                     return <div className='col col-3' key={movie.id}>
                         <MovieCard movie={movie} key={movie.id}/>
@@ -32,4 +25,11 @@ class MovieList extends  Component {
     }
 }
 
-export default MovieList;
+
+const mapStateToProps = state => state.movieList;
+const mapDispatchToProps = dispatch => ({
+    movieList: () => dispatch(movieList())
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

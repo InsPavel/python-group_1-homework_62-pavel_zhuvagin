@@ -53,7 +53,7 @@ class App extends Component {
 
 const mapStateToProps = state => state.app;
 const mapDispatchToProps = dispatch => ({
-    tokenLogin: () => dispatch(tokenLogin())
+    tokenLogin: () => dispatch(tokenLogin()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

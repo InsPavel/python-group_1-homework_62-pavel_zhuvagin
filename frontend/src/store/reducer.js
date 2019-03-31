@@ -1,6 +1,7 @@
 import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR} from "./actions/login";
 import {LOGOUT} from "./actions/logout";
 import {TOKEN_LOGIN_REQUEST, TOKEN_LOGIN_SUCCESS, TOKEN_LOGIN_ERROR} from "./actions/token-login";
+import {MOVIES_REQUEST, MOVIES_SUCCESS, MOVIES_ERROR} from "./actions/movieList";
 
 
 const initialState = {
@@ -17,7 +18,9 @@ const initialState = {
 
     },
     movieList: {
-
+        movie: [],
+        loading: false,
+        errors: {}
     },
     movieDetail: {
 
@@ -88,6 +91,33 @@ const reducer = (state = initialState, action) => {
                 app: {
                     ...state.app,
                     loading: true,
+                    errors: action.errors
+                }
+            };
+        case MOVIES_REQUEST:
+            return {
+                ...state,
+                movieList: {
+                    ...state.movieList,
+                    loading: true,
+                    errors: {}
+                },
+            };
+        case MOVIES_SUCCESS:
+            return {
+                ...state,
+                movieList: {
+                    ...state.movieList,
+                    movie: action.data,
+                    loading: false,
+                },
+            };
+        case MOVIES_ERROR:
+            return {
+                ...state,
+                movieList: {
+                    ...state.movieList,
+                    loading: false,
                     errors: action.errors
                 }
             };
