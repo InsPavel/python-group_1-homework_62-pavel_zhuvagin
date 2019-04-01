@@ -1,30 +1,30 @@
 import React, {Component} from 'react'
-import {MOVIES_URL} from "../../api-urls";
 import {NavLink} from "react-router-dom";
-import axios from 'axios';
 import MovieCategories from "../../componenets/Content/Movie/MovieCategories/MovieCategories";
 import MovieShow from "../../componenets/Content/Movie/MovieShow/MovieShow";
 import MovieDeleteButton from "../../componenets/Content/Movie/MovieDeleteButton/MovieDeleteButton";
+import {getMovieDetail} from "../../store/actions/movieDetail";
+import connect from "react-redux/es/connect/connect";
 
 
 class MovieDetail extends Component {
-    state = {
-        movie: null
-    };
-
     componentDidMount() {
-        const match = this.props.match;
-
-        axios.get(MOVIES_URL + match.params.id)
-            .then(response => {console.log(response.data); return response.data;})
-            .then(movie => this.setState({movie}))
-            .catch(error => console.log(error));
+        const id = this.props.match.params.id;
+        this.props.getMovieDetail(id)
+        .then(response => {
+            const movie = response.data;
+            this.setState(prevState => {
+                const newState = {...prevState};
+                newState.movie = movie;
+                return newState;
+            })
+        })
     }
 
     render() {
-        if (!this.state.movie) return null;
+        if (!this.props.movie) return null;
 
-        const {name, poster, description, release_date, finish_date, categories, id} = this.state.movie;
+        const {name, poster, description, release_date, finish_date, categories, id} = this.props.movie;
         return <div>
             {poster ? <div className='text-center'>
                 <img className="img-fluid rounded" src={poster} alt='poster'/>
@@ -40,5 +40,9 @@ class MovieDetail extends Component {
     }
 }
 
+const mapStateToProps = state => state.movieDetail;
+const mapDispatchToProps = dispatch => ({
+    getMovieDetail: (id) => dispatch(getMovieDetail(id)),
+});
 
-export default MovieDetail;
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);
