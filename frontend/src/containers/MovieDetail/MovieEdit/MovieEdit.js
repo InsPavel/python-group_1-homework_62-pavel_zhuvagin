@@ -1,48 +1,30 @@
 import React, {Component, Fragment} from 'react'
-import axios from "axios";
-import {MOVIES_URL} from "../../../api-urls";
 import MovieForm from "../../../componenets/Content/Movie/MovieForm/MovieForm";
+import {movieEditAction, getMovie} from "../../../store/actions/movieEdit";
+import connect from "react-redux/es/connect/connect";
 
 
 class MovieEdit extends Component {
-    state = {
-        movie: null,
-        alert: null,
-        errors: {}
-    };
-
     componentDidMount() {
-        axios.get(MOVIES_URL + this.props.match.params.id)
-            .then(response => {
-                const movie = response.data;
-                console.log(movie);
-                this.setState(prevState => {
-                    const newState = {...prevState};
-                    newState.movie = movie;
-                    newState.movie.categories = movie.categories.map(category => category.id);
-                    return newState;
-                });
-            })
-            .catch(error => {
-                console.log(error);
-                console.log(error.response);
+        const id = this.props.match.params.id;
+        this.props.getMovie(id)
+        .then(response => {
+            const movie = response.data;
+            this.setState(prevState => {
+                const newState = {...prevState};
+                newState.movie = movie;
+                newState.movie.categories = movie.categories.map(category => category.id);
+                return newState;
             });
+        })
     }
 
     showErrors = (name) => {
-        if(this.state.errors && this.state.errors[name]){
-            return this.state.errors[name].map((error, index) => <p
+        if(this.props.movieEdit.errors && this.props.movieEdit.errors[name]){
+            return this.props.movieEdit.errors[name].map((error, index) => <p
                 className="text-danger" key={index}>{error}</p>)
         }
         return null;
-    };
-
-    showErrorAlert = (error) => {
-        this.setState(prevState => {
-            let newState = {...prevState};
-            newState.alert = {type: 'danger', message: `Movie was not added!`};
-            return newState;
-        });
     };
 
     gatherFormData = (movie) => {
@@ -62,37 +44,30 @@ class MovieEdit extends Component {
 
     formSubmitted = (movie) => {
         const formData = this.gatherFormData(movie);
+        const id = this.props.match.params.id;
+        const token = this.props.auth.token;
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Token ' + token
+        };
 
-        return axios.put(MOVIES_URL + this.props.match.params.id + '/', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Token ' + localStorage.getItem('auth-token')
-            }
+        this.props.movieEditAction(formData, headers, id).then((response) => {
+            console.log(response)
         })
-            .then(response => {
-                const movie = response.data;
-                console.log(movie);
-                this.props.history.replace('/movies/' + movie.id);
-            })
-            .catch(error => {
-                console.log(error);
-                console.log(error.response);
-                this.showErrorAlert(error.response);
-                this.setState({
-                ...this.state,
-                errors: error.response.data
-            })
-            });
     };
 
     render() {
-        const {alert, movie} = this.state;
+        const {movie} = this.props.movieEdit;
         return <Fragment>
-            {alert ? <div className={"mb-2 alert alert-" + alert.type}>{alert.message}</div> : null}
             {movie ? <MovieForm onSubmit={this.formSubmitted} showErrors={this.showErrors} movie={movie}/> : null}
         </Fragment>
     }
 }
 
+const mapStateToProps = state => state;
+const mapDispatchToProps = dispatch => ({
+    getMovie: (id) => dispatch(getMovie(id)),
+    movieEditAction: (formData, headers, id) => dispatch(movieEditAction(formData, headers, id)),
+});
 
-export default MovieEdit;
+export default connect(mapStateToProps, mapDispatchToProps)(MovieEdit);
