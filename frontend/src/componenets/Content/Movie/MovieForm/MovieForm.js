@@ -127,7 +127,7 @@ class MovieForm extends Component {
             event.preventDefault();
             this.disableSubmit();
             this.props.onSubmit(this.state.movie)
-                .then(this.enableSubmit);
+            this.enableSubmit();
         }
     };
 

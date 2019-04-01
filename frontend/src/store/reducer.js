@@ -2,6 +2,7 @@ import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR} from "./actions/login";
 import {LOGOUT} from "./actions/logout";
 import {TOKEN_LOGIN_REQUEST, TOKEN_LOGIN_SUCCESS, TOKEN_LOGIN_ERROR} from "./actions/token-login";
 import {MOVIES_REQUEST, MOVIES_SUCCESS, MOVIES_ERROR} from "./actions/movieList";
+import {MOVIE_ADD_REQUEST, MOVIE_ADD_SUCCESS, MOVIE_ADD_ERROR} from "./actions/movieAdd";
 
 
 const initialState = {
@@ -26,7 +27,7 @@ const initialState = {
 
     },
     movieAdd: {
-
+        errors: {}
     },
     movieEdit: {
 
@@ -118,6 +119,30 @@ const reducer = (state = initialState, action) => {
                 movieList: {
                     ...state.movieList,
                     loading: false,
+                    errors: action.errors
+                }
+            };
+        case MOVIE_ADD_REQUEST:
+            return {
+                ...state,
+                movieAdd: {
+                    ...state.movieAdd,
+                    errors: {}
+                },
+            };
+        case MOVIE_ADD_SUCCESS:
+            return {
+                ...state,
+                movieAdd: {
+                    ...state.movieAdd,
+                },
+            };
+        case MOVIE_ADD_ERROR:
+            return {
+                ...state,
+                movieAdd: {
+                    ...state.movieAdd,
+                    alert: null,
                     errors: action.errors
                 }
             };
