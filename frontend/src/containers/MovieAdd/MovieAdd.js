@@ -37,7 +37,9 @@ class MovieAdd extends Component {
             'Authorization': 'Token ' + token
         };
         this.props.movieAddAction(formData, headers).then((response) => {
-            console.log(response)
+            console.log(response);
+            const movie = response.data;
+            this.props.history.replace('/movies/' + movie.id);
         })
     };
 

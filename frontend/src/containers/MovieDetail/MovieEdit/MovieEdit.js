@@ -53,6 +53,7 @@ class MovieEdit extends Component {
 
         this.props.movieEditAction(formData, headers, id).then((response) => {
             console.log(response)
+            this.props.history.replace('/movies/' + id);
         })
     };
 
