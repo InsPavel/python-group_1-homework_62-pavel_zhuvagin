@@ -6,7 +6,7 @@ import {MOVIE_ADD_REQUEST, MOVIE_ADD_SUCCESS, MOVIE_ADD_ERROR} from "./actions/m
 import {MOVIE_EDIT_REQUEST, MOVIE_EDIT_SUCCESS, MOVIE_EDIT_ERROR} from "./actions/movieEdit";
 import {MOVIE_DETAIL_REQUEST, MOVIE_DETAIL_SUCCESS, MOVIE_DETAIL_ERROR} from "./actions/movieDetail";
 import {HALL_SUCCESS, HALL_REQUEST, HALL_ERROR} from "./actions/hallList";
-
+import {HALL_DETAIL_REQUEST, HALL_DETAIL_SUCCESS, HALL_DETAIL_ERROR} from "./actions/hallDetail";
 
 const initialState = {
     login: {
@@ -40,6 +40,10 @@ const initialState = {
     hallList: {
         hall: [],
         loading: false,
+        error: {}
+    },
+    hallDetail: {
+        hall: [],
         error: {}
     }
 };
@@ -227,6 +231,30 @@ const reducer = (state = initialState, action) => {
                 hallList: {
                     ...state.hallList,
                     loading: false,
+                    errors: action.errors
+                }
+            };
+        case HALL_DETAIL_REQUEST:
+            return {
+                ...state,
+                hallDetail: {
+                    ...state.hallDetail,
+                    errors: {}
+                },
+            };
+        case HALL_DETAIL_SUCCESS:
+            return {
+                ...state,
+                hallDetail: {
+                    ...state.hallDetail,
+                    hall: action.data,
+                },
+            };
+        case HALL_DETAIL_ERROR:
+            return {
+                ...state,
+                hallDetail: {
+                    ...state.hallDetail,
                     errors: action.errors
                 }
             };
