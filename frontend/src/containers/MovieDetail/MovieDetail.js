@@ -3,28 +3,19 @@ import {NavLink} from "react-router-dom";
 import MovieCategories from "../../componenets/Content/Movie/MovieCategories/MovieCategories";
 import MovieShow from "../../componenets/Content/Movie/MovieShow/MovieShow";
 import MovieDeleteButton from "../../componenets/Content/Movie/MovieDeleteButton/MovieDeleteButton";
-import {getMovieDetail} from "../../store/actions/movieDetail";
+import {loadMovie} from "../../store/actions/movie-detail";
 import connect from "react-redux/es/connect/connect";
 
 
 class MovieDetail extends Component {
     componentDidMount() {
-        const id = this.props.match.params.id;
-        this.props.getMovieDetail(id)
-        .then(response => {
-            const movie = response.data;
-            this.setState(prevState => {
-                const newState = {...prevState};
-                newState.movie = movie;
-                return newState;
-            })
-        })
+        this.props.loadMovie(this.props.match.params.id)
     }
 
     render() {
         if (!this.props.movie) return null;
-
         const {name, poster, description, release_date, finish_date, categories, id} = this.props.movie;
+        console.log(this.props.movie)
         return <div>
             {poster ? <div className='text-center'>
                 <img className="img-fluid rounded" src={poster} alt='poster'/>
@@ -42,7 +33,7 @@ class MovieDetail extends Component {
 
 const mapStateToProps = state => state.movieDetail;
 const mapDispatchToProps = dispatch => ({
-    getMovieDetail: (id) => dispatch(getMovieDetail(id)),
+    loadMovie: (id) => dispatch(loadMovie(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);

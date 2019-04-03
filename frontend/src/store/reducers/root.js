@@ -1,5 +1,5 @@
 import {MOVIE_ADD_REQUEST, MOVIE_ADD_SUCCESS, MOVIE_ADD_ERROR} from "../actions/movieAdd";
-import {MOVIE_DETAIL_REQUEST, MOVIE_DETAIL_SUCCESS, MOVIE_DETAIL_ERROR} from "../actions/movieDetail";
+import {MOVIE_DETAIL_REQUEST, MOVIE_DETAIL_SUCCESS, MOVIE_DETAIL_ERROR} from "../actions/movie-detail";
 import {HALL_SUCCESS, HALL_REQUEST, HALL_ERROR} from "../actions/hallList";
 import {HALL_DETAIL_REQUEST, HALL_DETAIL_SUCCESS, HALL_DETAIL_ERROR} from "../actions/hallDetail";
 
@@ -9,6 +9,7 @@ import authReducer from "./auth";
 import tokenLoginReducer from "./app";
 import movieListReducer from "./movie-list";
 import movieEditReducer from "./movie-edit";
+import movieDetailReducer from "./movie-detail";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -16,13 +17,10 @@ const rootReducer = combineReducers({
     app: tokenLoginReducer,
     movieList: movieListReducer,
     movieEdit: movieEditReducer,
+    movieDetail: movieDetailReducer
 });
 
 export default rootReducer;
-//     movieDetail: {
-//         movie: null,
-//         errors: {}
-//     },
 //     movieAdd: {
 //         errors: {}
 //     },
