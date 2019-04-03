@@ -24,6 +24,7 @@ class App extends Component {
     componentDidMount(){
         this.props.tokenLogin();
     }
+
   render() {
       return (
           <div>
@@ -41,7 +42,7 @@ class App extends Component {
                           <Route path='/logout' component={Logout} />
                           <Route path='/register' component={Register} />
                           <Route path='/users/:id/update' component={UserUpdateForm} />
-                          <Route path='/users/:id' component={UserSettings} />
+                          <AuthRoute path='/users/:id' component={UserSettings} />
                           <Route path='/' component={MovieList}/>
                       </Switch>
                   </Layout>
