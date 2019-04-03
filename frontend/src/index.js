@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faDoorOpen, faDoorClosed, faKey } from '@fortawesome/free-solid-svg-icons';
 import {createStore, applyMiddleware} from 'redux';
-import reducer from './store/reducer';
+import rootReducer from './store/reducers/root';
 import {Provider} from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import axios from 'axios';
@@ -17,7 +17,7 @@ axios.defaults.baseURL = BASE_URL;
 
 library.add(faUser, faDoorOpen, faDoorClosed, faKey);
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 
 
