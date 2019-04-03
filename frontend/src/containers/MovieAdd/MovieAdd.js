@@ -1,59 +1,38 @@
 import React, {Fragment, Component} from 'react'
 import MovieForm from "../../componenets/Content/Movie/MovieForm/MovieForm";
 import {connect} from 'react-redux';
-import {movieAddAction} from "../../store/actions/movieAdd";
+import {MOVIE_ADD_SUCCESS, movieAddAction} from "../../store/actions/movie-add";
 
 
 
 class MovieAdd extends Component {
-    showErrors = (name) => {
-        if(this.props.movieAdd.errors && this.props.movieAdd.errors[name]){
-            return this.props.movieAdd.errors[name].map((error, index) => <p
-                className="text-danger" key={index}>{error}</p>)
-        }
-        return null;
-    };
-
-    gatherFormData = (movie) => {
-        let formData = new FormData();
-        Object.keys(movie).forEach(key => {
-            const value = movie[key];
-            if (value) {
-                if(Array.isArray(value)) {
-                    value.forEach(item => formData.append(key, item));
-                } else {
-                    formData.append(key, value);
-                }
-            }
-        });
-        return formData;
-    };
-
     formSubmitted = (movie) => {
-        const formData = this.gatherFormData(movie);
-        const token = this.props.auth.token;
-        const headers = {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'Token ' + token
-        };
-        this.props.movieAddAction(formData, headers).then((response) => {
-            console.log(response);
-            const movie = response.data;
-            this.props.history.replace('/movies/' + movie.id);
+        const {auth} = this.props;
+        return this.props.movieAddAction(movie, auth.token)
+            .then(result => {
+                if(result.type === MOVIE_ADD_SUCCESS) {
+                   this.props.history.push('/movies/' + result.movie.id);
+                }
         })
     };
 
 
     render() {
+        const {errors} = this.props.movieAdd;
         return <Fragment>
-            <MovieForm onSubmit={this.formSubmitted} showErrors={this.showErrors}/>
+            <MovieForm onSubmit={this.formSubmitted} errors={errors}/>
         </Fragment>
     }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => {
+    return {
+        movieAdd: state.movieAdd,
+        auth: state.auth
+    }
+};
 const mapDispatchToProps = dispatch => ({
-    movieAddAction: (formData, headers) => dispatch(movieAddAction(formData, headers))
+    movieAddAction: (movie, authToken) => dispatch(movieAddAction(movie, authToken))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieAdd);
