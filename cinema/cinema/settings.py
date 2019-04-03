@@ -139,3 +139,11 @@ REST_FRAMEWORK = {
 BOOKING_CODE_LENGTH = 6
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'aea1f6a67db3ed'
+EMAIL_HOST_PASSWORD = '95e5bd28f015f9'
+EMAIL_PORT = '2525'
+
+
