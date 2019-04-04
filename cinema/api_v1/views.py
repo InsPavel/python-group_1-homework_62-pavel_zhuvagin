@@ -1,7 +1,8 @@
-from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, Book
+from django.conf import settings
+from webapp.models import Movie, Category, Hall, Seat, Show, Ticket, Discount, Book, RegistrationToken
 from rest_framework import viewsets
-from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer, ShowDisplaySerializer, UserSerializer, AuthTokenSerializer
-from rest_framework.generics import CreateAPIView
+from api_v1.serializers import MovieCreateSerializer, MovieDisplaySerializer, CategorySerializer, HallSerializer, SeatSerializer, ShowSerializer, TicketSerializer, DiscountSerializer, BookSerializer, ShowDisplaySerializer, UserSerializer, AuthTokenSerializer, UserRegisterSerializer, RegistrationTokenSerializer
+from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken, APIView
@@ -170,10 +171,45 @@ class UserViewSet(BaseViewSet):
 
 class UserCreateView(CreateAPIView):
     model = User
-    serializer_class = UserSerializer
+    serializer_class = UserRegisterSerializer
     permission_classes = [AllowAny]
 
+    def perform_create(self, serializer):
+        user = serializer.save()
+        token = self.create_token(user)
+        self.send_registration_email(user, token)
 
+    def create_token(self, user):
+        return RegistrationToken.objects.create(user=user)
+
+    def send_registration_email(self, user, token):
+        url = '%s/register/activate/?token=%s' % (settings.HOST_URL, token)
+        email_text = "Your account was successfully created.\nPlease, follow the link to activate:\n\n%s" % url
+        user.email_user("Registration at Cinema-App", email_text, settings.EMAIL_DEFAULT_FROM)
+
+
+class UserActivateView(GenericAPIView):
+    serializer_class = RegistrationTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_user_activation(serializer)
+        auth_token, _ = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': auth_token.key,
+            'username': user.username,
+            'is_admin': user.is_superuser,
+            'is_staff': user.is_staff
+        })
+
+    def perform_user_activation(self, serializer):
+        token = serializer.validated_data.get('token')
+        user = token.user
+        user.is_active = True
+        user.save()
+        token.delete()
+        return user
 
 
 

@@ -145,5 +145,8 @@ EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_HOST_USER = 'aea1f6a67db3ed'
 EMAIL_HOST_PASSWORD = '95e5bd28f015f9'
 EMAIL_PORT = '2525'
+EMAIL_DEFAULT_FROM = 'admin@admin.com'
 
+HOST_URL = 'http://localhost:3000'
 
+TOKEN_EXPIRATION_HOURS = 72

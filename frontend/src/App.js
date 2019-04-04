@@ -19,6 +19,7 @@ import UserUpdateForm from "./containers/UserUpdateForm/UserUpdateForm";
 import UserSettings from "./containers/UserSettings/UserSettings";
 import {tokenLogin} from "./store/actions/token-login";
 import {connect} from 'react-redux';
+import RegisterActivate from "./containers/Register/RegisterActivate/RegisterActivate";
 
 class App extends Component {
     componentDidMount(){
@@ -40,6 +41,7 @@ class App extends Component {
                           <Route path='/movies/:id' component={MovieDetail} />
                           <Route path='/login' component={Login} />
                           <Route path='/logout' component={Logout} />
+                          <Route path="/register/activate" component={RegisterActivate}/>
                           <Route path='/register' component={Register} />
                           <Route path='/users/:id/update' component={UserUpdateForm} />
                           <AuthRoute path='/users/:id' component={UserSettings} />

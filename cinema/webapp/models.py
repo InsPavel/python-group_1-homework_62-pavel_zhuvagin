@@ -2,6 +2,7 @@ from django.db import models
 import random, string
 from django.conf import settings
 import uuid
+from django.utils.timezone import now
 
 
 class RegistrationToken(models.Model):
