@@ -14,8 +14,8 @@ class MovieDetail extends Component {
 
     render() {
         if (!this.props.movie) return null;
+        const movieId = this.props.match.params.id;
         const {name, poster, description, release_date, finish_date, categories, id} = this.props.movie;
-        console.log(this.props.movie)
         return <div>
             {poster ? <div className='text-center'>
                 <img className="img-fluid rounded" src={poster} alt='poster'/>
@@ -24,7 +24,7 @@ class MovieDetail extends Component {
             {categories.length > 0 ? <MovieCategories categories={categories}/> : null}
             <p className="text-secondary">В прокате c: {release_date} до: {finish_date ? finish_date : "Неизвестно"}</p>
             {description ? <p>{description}</p> : null}
-            <MovieShow id={id}/>
+            <MovieShow movieId={movieId}/>
             <NavLink to={'/movies/' + id + '/edit'} className="btn btn-primary mr-2">Edit</NavLink>
             <span  className="btn btn-primary mr-2"><MovieDeleteButton id={id}/></span>
         </div>;
