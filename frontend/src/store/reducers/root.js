@@ -9,9 +9,11 @@ import movieListReducer from "./movie-list";
 import movieEditReducer from "./movie-edit";
 import movieDetailReducer from "./movie-detail";
 import movieAddReducer from "./movie-add";
+import registerReducer from "./register";
 
 const rootReducer = combineReducers({
     login: loginReducer,
+    register: registerReducer,
     auth: authReducer,
     app: tokenLoginReducer,
     movieList: movieListReducer,

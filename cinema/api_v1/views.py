@@ -198,6 +198,7 @@ class UserActivateView(GenericAPIView):
         auth_token, _ = Token.objects.get_or_create(user=user)
         return Response({
             'token': auth_token.key,
+            'user_id': user.pk,
             'username': user.username,
             'is_admin': user.is_superuser,
             'is_staff': user.is_staff
