@@ -14,7 +14,7 @@ class HallDetail extends Component {
         const match = this.props.match;
         return  <div>
             <h3>Зал: {this.props.hall.name}</h3>
-                <HallShow id={match.params.id}/>
+                <HallShow hallId={match.params.id}/>
                 <NavLink to={'/halls/' + match.params.id + '/edit'} className='btn btn-primary mr-2'>Edit</NavLink>
                 <span  className="btn btn-primary mr-2"><HallDeleteButton id={match.params.id}/></span>
             </div>

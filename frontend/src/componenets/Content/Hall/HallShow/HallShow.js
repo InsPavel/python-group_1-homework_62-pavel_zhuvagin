@@ -1,36 +1,25 @@
 import React, {Fragment, Component} from 'react'
-import axios from 'axios';
-import {SHOWS_URL} from "../../../../api-urls";
 import Show from "../../../UI/Show/Show";
+import {loadShowHall} from "../../../../store/actions/hall-show";
+import connect from "react-redux/es/connect/connect";
 
 
 class HallShow extends Component{
-    state = {
-        shows: [],
-    };
-
     componentDidMount(){
         let current_date = new Date();
         let next_date = new Date();
         next_date.setDate(next_date.getDate() + 3);
         current_date = current_date.toISOString().slice(0, 10);
         next_date = next_date.toISOString().slice(0, 10);
-
-        axios.get(SHOWS_URL + '?hall_id=' + this.props.id + '&start_of_show=' + current_date + '&finish_of_show=' + next_date)
-            .then(response => {
-                return response.data;
-            })
-            .then(shows =>{
-                this.setState({shows})
-            })
-            .catch(error => console.log(error));
+        const id = this.props.hallId;
+        this.props.loadShowHall(id, current_date, next_date)
     }
 
     render(){
         return <Fragment>
             <h5>Репертуар сеансов на три дня:</h5>
-            {this.state.shows.length > 0 ? <span>
-                {this.state.shows.map((show) => {
+            {this.props.shows.length > 0 ? <span>
+                {this.props.shows.map((show) => {
                     return <Show
                         show={show}
                         key={show.id}
@@ -42,4 +31,10 @@ class HallShow extends Component{
     }
 }
 
-export default HallShow;
+const mapStateToProps = state => state.hallShow;
+const mapDispatchToProps = dispatch => ({
+    loadShowHall: (id, current_date, next_date) => dispatch(loadShowHall(id, current_date, next_date))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(HallShow);

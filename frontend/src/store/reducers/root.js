@@ -12,6 +12,7 @@ import hallDetailReducer from "./hall-detail";
 import hallAddReducer from "./hall-add";
 import hallEditReducer from "./hall-edit";
 import movieShowReducer from "./movie-show";
+import hallShowReducer from "./hall-show";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
     hallDetail: hallDetailReducer,
     hallAdd: hallAddReducer,
     hallEdit: hallEditReducer,
-    movieShow: movieShowReducer
+    movieShow: movieShowReducer,
+    hallShow: hallShowReducer
 });
 
 export default rootReducer;
