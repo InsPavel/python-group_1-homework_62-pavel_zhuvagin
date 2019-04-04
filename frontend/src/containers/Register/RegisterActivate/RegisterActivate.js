@@ -1,7 +1,5 @@
 import React, {Component, Fragment} from 'react'
-import {REGISTER_ACTIVATE_URL} from "../../../api-urls";
-import axios from 'axios';
-import {activateUser, REGISTER_SUCCESS} from "../../../store/actions/register";
+import {activateUser} from "../../../store/actions/register";
 import {LOGIN_SUCCESS} from "../../../store/actions/login";
 import {connect} from 'react-redux';
 

@@ -153,7 +153,7 @@ class BookViewSet(BaseViewSet):
     serializer_class = BookSerializer
 
 
-class UserViewSet(BaseViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

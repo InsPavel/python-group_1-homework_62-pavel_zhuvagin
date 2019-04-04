@@ -1,6 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import {REGISTER_URL} from "../../api-urls";
-import axios from 'axios';
 import {REGISTER_SUCCESS, registerUser} from "../../store/actions/register";
 import {connect} from 'react-redux';
 
@@ -12,7 +10,6 @@ class Register extends Component {
             password_confirm: "",
             email: "",
         },
-        // errors: {}
     };
 
     formSubmitted = (event) => {
@@ -25,18 +22,6 @@ class Register extends Component {
                     }
                 });
         }
-
-        // return axios.post(REGISTER_URL, this.state.user).then(response => {
-        //     console.log(response);
-        //     this.props.history.replace('/register/activate');
-        // }).catch(error => {
-        //     console.log(error);
-        //     console.log(error.response);
-        //     this.setState({
-        //         ...this.state,
-        //         errors: error.response.data
-        //     })
-        // });
     };
 
     inputChanged = (event) => {
