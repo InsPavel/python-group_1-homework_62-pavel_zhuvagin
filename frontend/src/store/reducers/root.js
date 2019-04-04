@@ -1,4 +1,3 @@
-import {HALL_SUCCESS, HALL_REQUEST, HALL_ERROR} from "../actions/hallList";
 import {HALL_DETAIL_REQUEST, HALL_DETAIL_SUCCESS, HALL_DETAIL_ERROR} from "../actions/hallDetail";
 
 import {combineReducers} from 'redux';
@@ -10,6 +9,7 @@ import movieEditReducer from "./movie-edit";
 import movieDetailReducer from "./movie-detail";
 import movieAddReducer from "./movie-add";
 import registerReducer from "./register";
+import hallListReducer from "./hall-list";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -20,14 +20,10 @@ const rootReducer = combineReducers({
     movieEdit: movieEditReducer,
     movieDetail: movieDetailReducer,
     movieAdd: movieAddReducer,
+    hallList: hallListReducer
 });
 
 export default rootReducer;
-//     hallList: {
-//         hall: [],
-//         loading: false,
-//         error: {}
-//     },
 //     hallDetail: {
 //         hall: [],
 //         error: {}
@@ -35,57 +31,6 @@ export default rootReducer;
 // };
 // const root = (state = initialState, action) => {
 //     switch (action.type) {
-//         case MOVIE_DETAIL_REQUEST:
-//             return {
-//                 ...state,
-//                 movieDetail: {
-//                     ...state.movieDetail,
-//                     errors: {}
-//                 },
-//             };
-//         case MOVIE_DETAIL_SUCCESS:
-//             return {
-//                 ...state,
-//                 movieDetail: {
-//                     ...state.movieDetail,
-//                     movie: action.data,
-//                 },
-//             };
-//         case MOVIE_DETAIL_ERROR:
-//             return {
-//                 ...state,
-//                 movieDetail: {
-//                     ...state.movieDetail,
-//                     errors: action.errors
-//                 }
-//             };
-//         case HALL_REQUEST:
-//             return {
-//                 ...state,
-//                 hallList: {
-//                     ...state.hallList,
-//                     loading: true,
-//                     errors: {}
-//                 },
-//             };
-//         case HALL_SUCCESS:
-//             return {
-//                 ...state,
-//                 hallList: {
-//                     ...state.hallList,
-//                     hall: action.data,
-//                     loading: false,
-//                 },
-//             };
-//         case HALL_ERROR:
-//             return {
-//                 ...state,
-//                 hallList: {
-//                     ...state.hallList,
-//                     loading: false,
-//                     errors: action.errors
-//                 }
-//             };
 //         case HALL_DETAIL_REQUEST:
 //             return {
 //                 ...state,

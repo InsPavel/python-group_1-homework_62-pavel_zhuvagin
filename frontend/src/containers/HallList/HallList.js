@@ -1,18 +1,18 @@
 import React, {Fragment, Component} from 'react';
 import HallBlock from "../../componenets/Content/Hall/HallBlock/HallBlock";
-import {hallList} from "../../store/actions/hallList";
+import {loadHalls} from "../../store/actions/hall-list";
 import connect from "react-redux/es/connect/connect";
 
 
 class HallList extends Component {
     componentDidMount(){
-        this.props.hallList()
+        this.props.loadHalls()
     }
 
     render(){
         return <Fragment>
             <div className="row mt-2 text-center">
-                {this.props.hall.map(hall => {
+                {this.props.halls.map(hall => {
                     if(!hall.is_deleted) {
                         return <HallBlock hall={hall} key={hall.id}/>
                 }
@@ -25,7 +25,7 @@ class HallList extends Component {
 
 const mapStateToProps = state => state.hallList;
 const mapDispatchToProps = dispatch => ({
-    hallList: () => dispatch(hallList())
+    loadHalls: () => dispatch(loadHalls())
 });
 
 
