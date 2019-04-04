@@ -1,5 +1,3 @@
-import {HALL_DETAIL_REQUEST, HALL_DETAIL_SUCCESS, HALL_DETAIL_ERROR} from "../actions/hallDetail";
-
 import {combineReducers} from 'redux';
 import loginReducer from "./login";
 import authReducer from "./auth";
@@ -10,6 +8,7 @@ import movieDetailReducer from "./movie-detail";
 import movieAddReducer from "./movie-add";
 import registerReducer from "./register";
 import hallListReducer from "./hall-list";
+import hallDetailReducer from "./hall-detail";
 
 const rootReducer = combineReducers({
     login: loginReducer,
@@ -20,43 +19,9 @@ const rootReducer = combineReducers({
     movieEdit: movieEditReducer,
     movieDetail: movieDetailReducer,
     movieAdd: movieAddReducer,
-    hallList: hallListReducer
+    hallList: hallListReducer,
+    hallDetail: hallDetailReducer
 });
 
 export default rootReducer;
-//     hallDetail: {
-//         hall: [],
-//         error: {}
-//     }
-// };
-// const root = (state = initialState, action) => {
-//     switch (action.type) {
-//         case HALL_DETAIL_REQUEST:
-//             return {
-//                 ...state,
-//                 hallDetail: {
-//                     ...state.hallDetail,
-//                     errors: {}
-//                 },
-//             };
-//         case HALL_DETAIL_SUCCESS:
-//             return {
-//                 ...state,
-//                 hallDetail: {
-//                     ...state.hallDetail,
-//                     hall: action.data,
-//                 },
-//             };
-//         case HALL_DETAIL_ERROR:
-//             return {
-//                 ...state,
-//                 hallDetail: {
-//                     ...state.hallDetail,
-//                     errors: action.errors
-//                 }
-//             };
-//         default:
-//             return state
-//     }
-// };
 

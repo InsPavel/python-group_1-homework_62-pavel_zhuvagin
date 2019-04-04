@@ -2,23 +2,14 @@ import React, {Component} from 'react';
 import { NavLink } from 'react-router-dom';
 import HallDeleteButton from "../../componenets/Content/Hall/HallDeleteButton/HallDeleteButton";
 import HallShow from "../../componenets/Content/Hall/HallShow/HallShow";
-import {getHallDetail} from "../../store/actions/hallDetail";
 import connect from "react-redux/es/connect/connect";
+import {loadHall} from "../../store/actions/hall-detail";
+
 
 class HallDetail extends Component {
-    componentDidMount() {
-        const id = this.props.match.params.id;
-        this.props.getHallDetail(id)
-        .then(response => {
-            const hall = response.data;
-            this.setState(prevState => {
-                const newState = {...prevState};
-                newState.hall = hall;
-                return newState;
-            })
-        })
+     componentDidMount() {
+        this.props.loadH(this.props.match.params.id)
     }
-
     render(){
         const match = this.props.match;
         return  <div>
@@ -32,7 +23,7 @@ class HallDetail extends Component {
 
 const mapStateToProps = state => state.hallDetail;
 const mapDispatchToProps = dispatch => ({
-    getHallDetail: (id) => dispatch(getHallDetail(id)),
+    loadH: (id) => dispatch(loadHall(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HallDetail);

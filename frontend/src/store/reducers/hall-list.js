@@ -1,4 +1,4 @@
-import {HALSS_LIST_REQUEST_SUCCESS} from "../actions/hall-list";
+import {HALLS_LIST_REQUEST_SUCCESS} from "../actions/hall-list";
 
 const initialState = {
     halls: []
@@ -6,7 +6,7 @@ const initialState = {
 
 const hallListReducer = (state = initialState, action) => {
     switch (action.type) {
-        case HALSS_LIST_REQUEST_SUCCESS:
+        case HALLS_LIST_REQUEST_SUCCESS:
             return {...state, halls: action.halls};
         default:
             return state
